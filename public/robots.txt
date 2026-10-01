@@ -1,0 +1,5 @@
+# Robots.txt for Asif Iqbal Personal Branding Platform
+User-agent: *
+Allow: /
+
+Sitemap: https://asifiqbal.com/sitemap.xml

@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-ink: #0D161F;
+    --color-slate-dark: #121E2A;
+    --color-paper: #F8FAFC;
+    --color-white: #FFFFFF;
+    --color-teal: #0D9488;
+    --color-teal-light: #14B8A6;
+    --color-emerald: #10B981;
+    --color-amber: #F59E0B;
+    --color-muted: #64748B;
+    --color-border: #E2E8F0;
+    --color-border-dark: rgba(255, 255, 255, 0.08);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Manrope', 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #0D9488;
+    color: #FFFFFF;
+  }
+}
+
+/* ==========================================================================
+   DYNAMIC MODERN TYPOGRAPHY SYSTEM
+   ========================================================================== */
+
+/* Modern punchy display font for bold, memorable headlines */
+.font-display {
+  font-family: 'Outfit', 'Playfair Display', 'Cormorant Garamond', sans-serif;
+  letter-spacing: -0.025em;
+}
+
+/* Literary / Prestigious editorial serif for quotes, poetry and pull-quotes */
+.font-editorial {
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-feature-settings: "liga", "kern";
+}
+
+/* Handwritten script for distinctive editorial human accents */
+.font-script {
+  font-family: 'Caveat', cursive;
+}
+
+/* Modern, ultra-crisp geometric body & UI */
+.font-sans-modern {
+  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
+  letter-spacing: -0.011em;
+}
+
+/* World-class Bengali Typography: Hind Siliguri gives unmatched fluid legibility */
+.font-bengali-heading {
+  font-family: 'Hind Siliguri', 'Noto Serif Bengali', sans-serif;
+  font-weight: 700;
+  letter-spacing: normal !important;
+  line-height: 1.35;
+}
+
+.font-bengali-body {
+  font-family: 'Hind Siliguri', 'Noto Serif Bengali', sans-serif;
+  letter-spacing: normal !important;
+  line-height: 1.8;
+}
+
+.font-bengali-serif {
+  font-family: 'Noto Serif Bengali', 'Playfair Display', serif;
+  letter-spacing: normal !important;
+}
+
+:lang(bn) {
+  letter-spacing: normal !important;
+}
+
+:lang(bn) * {
+  letter-spacing: normal !important;
+}
+
+html[lang="bn"] body,
+html[lang="bn"] p,
+html[lang="bn"] li,
+html[lang="bn"] span:not([class*="font-mono"]) {
+  font-family: 'Hind Siliguri', 'Noto Serif Bengali', 'Plus Jakarta Sans', sans-serif;
+}
+
+html[lang="bn"] h1,
+html[lang="bn"] h2,
+html[lang="bn"] h3,
+html[lang="bn"] h4 {
+  font-family: 'Hind Siliguri', 'Outfit', sans-serif;
+  letter-spacing: normal !important;
+}
+
+/* Headline balancing to prevent orphan words */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Focus styles for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid #0D9488;
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   MODERN VISUAL DEPTH & EYE-CATCHING GLASSMORPHISM
+   ========================================================================== */
+
+/* Ambient Glowing Glass Card */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+.glass-panel-dark {
+  background: rgba(18, 30, 42, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* Gradient Text Fills */
+.gradient-text-teal {
+  background: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0284C7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-amber {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-silver {
+  background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subtle Animated Ambient Orbs */
+@keyframes pulseSubtle {
+  0%, 100% {
+    transform: scale(1) translate(0px, 0px);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.08) translate(10px, -15px);
+    opacity: 0.55;
+  }
+}
+
+.ambient-orb {
+  animation: pulseSubtle 12s ease-in-out infinite;
+}
+
+/* Sound Wave Equalizer Bar Animations */
+@keyframes barBounce {
+  0%, 100% {
+    height: 15%;
+  }
+  50% {
+    height: 95%;
+  }
+}
+
+.animate-wave-1 { animation: barBounce 0.9s ease-in-out infinite; }
+.animate-wave-2 { animation: barBounce 1.2s ease-in-out 0.2s infinite; }
+.animate-wave-3 { animation: barBounce 0.8s ease-in-out 0.4s infinite; }
+.animate-wave-4 { animation: barBounce 1.4s ease-in-out 0.1s infinite; }
+.animate-wave-5 { animation: barBounce 1.1s ease-in-out 0.3s infinite; }
+
+/* Subtle Cultural Bridge Line Motif */
+.bridge-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(20, 184, 166, 0.2) 20%, #14B8A6 50%, rgba(20, 184, 166, 0.2) 80%, transparent 100%);
+}
+
+/* Seamless Ticker Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+
+.animate-marquee-paused {
+  animation-play-state: paused !important;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D161F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0D9488;
+}
