@@ -21,7 +21,15 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
 
   // Sync autoplay, continuous loop enforcement, & reduced motion preference
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let prefersReducedMotion = false;
+    try {
+      if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+        prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      }
+    } catch (e) {
+      // Safe fallback
+    }
+
     if (prefersReducedMotion && videoRef.current) {
       videoRef.current.pause();
       return;

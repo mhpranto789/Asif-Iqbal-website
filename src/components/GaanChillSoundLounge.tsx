@@ -156,7 +156,8 @@ export const GaanChillSoundLounge: React.FC<GaanChillSoundLoungeProps> = ({
   // Subtle web audio synthetic ambient sound generator
   const startAudio = () => {
     try {
-      const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtxClass) return;
       if (!audioCtxRef.current) {
         audioCtxRef.current = new AudioCtxClass();
       }

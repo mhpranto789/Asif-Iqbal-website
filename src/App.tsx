@@ -3,37 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RoutePath, Language, EnquiryCategory } from './types';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { ScrollProgressBar } from './components/ScrollReveal';
 import { HomePage } from './pages/HomePage';
-
-// Lazy load secondary routes for reduced initial JS payload & optimal Vercel CDN edge caching
-const StoryPage = lazy(() => import('./pages/StoryPage').then(m => ({ default: m.StoryPage })));
-const WorkPage = lazy(() => import('./pages/WorkPage').then(m => ({ default: m.WorkPage })));
-const MusicPage = lazy(() => import('./pages/MusicPage').then(m => ({ default: m.MusicPage })));
-const IdeasPage = lazy(() => import('./pages/IdeasPage').then(m => ({ default: m.IdeasPage })));
-const SpeakingPage = lazy(() => import('./pages/SpeakingPage').then(m => ({ default: m.SpeakingPage })));
-const BlogPage = lazy(() => import('./pages/BlogPage').then(m => ({ default: m.BlogPage })));
-const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
-
-const PageFallback: React.FC<{ language: Language; isDark: boolean }> = ({ language, isDark }) => (
-  <div className={`min-h-[50vh] flex flex-col items-center justify-center space-y-3 py-24 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-    <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center animate-pulse">
-      <span className="font-display font-bold text-xs text-teal-400">AI</span>
-    </div>
-    <div className="w-20 h-1 bg-teal-950/20 rounded-full overflow-hidden">
-      <div className="w-full h-full bg-teal-500/60 rounded-full animate-pulse" />
-    </div>
-    <span className="text-[11px] font-mono tracking-widest uppercase text-slate-400">
-      {language === 'en' ? 'Loading…' : 'লোড হচ্ছে…'}
-    </span>
-  </div>
-);
+import { StoryPage } from './pages/StoryPage';
+import { WorkPage } from './pages/WorkPage';
+import { MusicPage } from './pages/MusicPage';
+import { IdeasPage } from './pages/IdeasPage';
+import { SpeakingPage } from './pages/SpeakingPage';
+import { BlogPage } from './pages/BlogPage';
+import { ContactPage } from './pages/ContactPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 export default function App() {
   const [language, setLanguage] = useState<Language>(() => {
@@ -47,15 +31,19 @@ export default function App() {
   });
 
   const [currentRoute, setCurrentRoute] = useState<RoutePath>(() => {
-    const path = window.location.pathname.replace(/^\/+/g, '').split('/')[0].toLowerCase();
-    if (!path || path === '') return 'home';
-    if (['home', 'story', 'work', 'music', 'ideas', 'speaking', 'blog', 'contact'].includes(path)) {
-      return path as RoutePath;
-    }
-    // Also check hash fallback
-    const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
-    if (['home', 'story', 'work', 'music', 'ideas', 'speaking', 'blog', 'contact'].includes(hash)) {
-      return hash as RoutePath;
+    try {
+      const path = window.location.pathname.replace(/^\/+/g, '').split('/')[0].toLowerCase();
+      if (!path || path === '' || path === 'index.html') return 'home';
+      if (['home', 'story', 'work', 'music', 'ideas', 'speaking', 'blog', 'contact'].includes(path)) {
+        return path as RoutePath;
+      }
+      // Also check hash fallback
+      const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+      if (['home', 'story', 'work', 'music', 'ideas', 'speaking', 'blog', 'contact'].includes(hash)) {
+        return hash as RoutePath;
+      }
+    } catch (e) {
+      // Safe fallback
     }
     return 'home';
   });
@@ -63,37 +51,23 @@ export default function App() {
   const [isNotFound, setIsNotFound] = useState(false);
   const [preselectedCategory, setPreselectedCategory] = useState<EnquiryCategory | undefined>(undefined);
 
-  // Idle prefetching for Vercel CDN edge performance
-  useEffect(() => {
-    const prefetchRoutes = () => {
-      import('./pages/StoryPage');
-      import('./pages/WorkPage');
-      import('./pages/MusicPage');
-      import('./pages/IdeasPage');
-      import('./pages/SpeakingPage');
-      import('./pages/BlogPage');
-      import('./pages/ContactPage');
-    };
-
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(prefetchRoutes);
-    } else {
-      setTimeout(prefetchRoutes, 1800);
-    }
-  }, []);
-
   // Sync route from browser URL history & popstate
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname.replace(/^\/+/g, '').split('/')[0].toLowerCase();
-      if (!path || path === '') {
+      try {
+        const path = window.location.pathname.replace(/^\/+/g, '').split('/')[0].toLowerCase();
+        if (!path || path === '' || path === 'index.html') {
+          setCurrentRoute('home');
+          setIsNotFound(false);
+        } else if (['home', 'story', 'work', 'music', 'ideas', 'speaking', 'blog', 'contact'].includes(path)) {
+          setCurrentRoute(path as RoutePath);
+          setIsNotFound(false);
+        } else {
+          setIsNotFound(true);
+        }
+      } catch (e) {
         setCurrentRoute('home');
         setIsNotFound(false);
-      } else if (['home', 'story', 'work', 'music', 'ideas', 'speaking', 'blog', 'contact'].includes(path)) {
-        setCurrentRoute(path as RoutePath);
-        setIsNotFound(false);
-      } else {
-        setIsNotFound(true);
       }
     };
 
@@ -192,54 +166,52 @@ export default function App() {
 
       {/* Semantic Main Content Area with Buttery Smooth Page Transitions */}
       <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>
-        <Suspense fallback={<PageFallback language={language} isDark={currentRoute === 'home' && !isNotFound} />}>
-          <AnimatePresence mode="wait">
-            {isNotFound ? (
-              <motion.div
-                key="notfound"
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
-              >
-                <NotFoundPage onNavigate={handleNavigate} language={language} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key={currentRoute}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
-              >
-                {currentRoute === 'home' && (
-                  <HomePage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'story' && (
-                  <StoryPage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'work' && (
-                  <WorkPage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'music' && (
-                  <MusicPage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'ideas' && (
-                  <IdeasPage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'speaking' && (
-                  <SpeakingPage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'blog' && (
-                  <BlogPage onNavigate={handleNavigate} language={language} />
-                )}
-                {currentRoute === 'contact' && (
-                  <ContactPage initialCategory={preselectedCategory} language={language} />
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Suspense>
+        <AnimatePresence mode="wait">
+          {isNotFound ? (
+            <motion.div
+              key="notfound"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
+            >
+              <NotFoundPage onNavigate={handleNavigate} language={language} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key={currentRoute}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
+            >
+              {currentRoute === 'home' && (
+                <HomePage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'story' && (
+                <StoryPage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'work' && (
+                <WorkPage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'music' && (
+                <MusicPage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'ideas' && (
+                <IdeasPage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'speaking' && (
+                <SpeakingPage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'blog' && (
+                <BlogPage onNavigate={handleNavigate} language={language} />
+              )}
+              {currentRoute === 'contact' && (
+                <ContactPage initialCategory={preselectedCategory} language={language} />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
       {/* Editorial Footer */}
