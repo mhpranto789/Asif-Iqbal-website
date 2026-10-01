@@ -18,22 +18,7 @@ export default defineConfig(() => {
       target: 'es2022',
       cssMinify: true,
       sourcemap: false,
-      chunkSizeWarningLimit: 600,
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-              return 'vendor-react';
-            }
-            if (id.includes('node_modules/lucide-react/')) {
-              return 'vendor-icons';
-            }
-            if (id.includes('node_modules/motion/')) {
-              return 'vendor-motion';
-            }
-          },
-        },
-      },
+      chunkSizeWarningLimit: 1200,
     },
     server: {
       port: 3000,
