@@ -2,7 +2,6 @@ import React from 'react';
 import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
 import { fourVentures, publishedBooks } from '../data/siteContent';
-import { PortraitSlot } from '../components/PortraitSlot';
 import { assetConfig } from '../data/assetConfig';
 import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight } from 'lucide-react';
 import { motion, Variants } from 'motion/react';
@@ -11,6 +10,7 @@ import { PolymathMatrix } from '../components/PolymathMatrix';
 import { ThoughtTicker } from '../components/ThoughtTicker';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { ScrollSection, ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
+import { HeroBackgroundVideo } from '../components/HeroBackgroundVideo';
 
 // Subtle staggered entrance animation variants for editorial polish
 const heroTextContainerVariants: Variants = {
@@ -70,20 +70,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
   return (
     <div className="space-y-16 lg:space-y-24 pb-20">
       {/* SECTION A: HERO (Extends up behind floating navbar so hero background shines through) */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#080E15] via-[#0E1722] to-[#0A121A] text-white -mt-20 sm:-mt-24 pt-28 sm:pt-36 lg:pt-40 pb-16 lg:pb-24 border-b border-teal-500/20">
-        {/* Ambient Glowing Radial Mesh */}
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-amber-500/8 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-full h-40 bg-gradient-to-t from-[#0A121A] to-transparent pointer-events-none" />
+      <section className="relative overflow-hidden bg-[#080E15] text-white -mt-20 sm:-mt-24 pt-28 sm:pt-36 lg:pt-40 pb-16 lg:pb-24 border-b border-teal-500/20">
+        {/* Cinematic Google Flow Background Video Layer & Ambient Lighting */}
+        <HeroBackgroundVideo language={language} />
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* Left Content Column (7 cols) with Staggered Entrance */}
+          <div className="max-w-3xl lg:max-w-4xl py-6 sm:py-10">
+            {/* Hero Content with Staggered Entrance */}
             <motion.div
               variants={heroTextContainerVariants}
               initial="hidden"
               animate="visible"
-              className="lg:col-span-7 space-y-6 sm:space-y-8"
+              className="space-y-6 sm:space-y-8"
             >
               {/* Eyebrow with Pulsing Live Status Dot */}
               <motion.div variants={heroTextItemVariants}>
@@ -98,18 +96,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
 
               {/* H1 & Dual Typography */}
               <motion.div variants={heroTextItemVariants} className="space-y-3">
-                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white text-balance leading-[1.08]">
+                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white text-balance leading-[1.08] drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]">
                   {language === 'en' ? (
                     <>
                       <span>Asif Iqbal</span>
-                      <span className="block text-2xl sm:text-3xl font-bengali-heading font-medium text-teal-400/90 pt-2 tracking-normal">
+                      <span className="block text-2xl sm:text-3xl font-bengali-heading font-medium text-teal-300 pt-2 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                         আসিফ ইকবাল
                       </span>
                     </>
                   ) : (
                     <>
                       <span className="font-bengali-heading">আসিফ ইকবাল</span>
-                      <span className="block text-2xl sm:text-3xl font-display font-medium text-teal-400/90 pt-2 tracking-normal">
+                      <span className="block text-2xl sm:text-3xl font-display font-medium text-teal-300 pt-2 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                         Asif Iqbal
                       </span>
                     </>
@@ -117,7 +115,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
                 </h1>
 
                 {/* Subtitle / Positioning Tagline */}
-                <div className="text-xl sm:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-200">
+                <div className="text-xl sm:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-200 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
                   {t.brand.positioning}
                 </div>
               </motion.div>
@@ -125,7 +123,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
               {/* Body Summary */}
               <motion.p
                 variants={heroTextItemVariants}
-                className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl text-balance"
+                className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl text-balance drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
               >
                 "{t.brand.heroSummary}"
               </motion.p>
@@ -133,7 +131,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
               {/* Prestigious Brand Philosophy Line */}
               <motion.div
                 variants={heroTextItemVariants}
-                className="p-4 rounded-xl bg-white/[0.03] border-l-2 border-teal-400 border-y border-r border-white/5 text-sm sm:text-base text-slate-200 font-editorial italic"
+                className="p-4 sm:p-5 rounded-xl bg-[#080E15]/50 backdrop-blur-md border-l-2 border-teal-400 border-y border-r border-white/10 text-sm sm:text-base text-slate-100 font-editorial italic max-w-2xl shadow-xl shadow-black/40"
               >
                 "{t.brand.brandLine}"
               </motion.div>
@@ -155,21 +153,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
                   <span>{t.brand.ctaStory}</span>
                 </button>
               </motion.div>
-            </motion.div>
-
-            {/* Right Column: Authentic Executive Portrait Slot (5 cols) */}
-            <motion.div
-              initial={{ opacity: 0, y: 24, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-5"
-            >
-              <PortraitSlot
-                photoUrl={assetConfig.heroPortraitUrl}
-                altText={language === 'en' ? 'Asif Iqbal – The Polymath Builder' : 'আসিফ ইকবাল'}
-                className="w-full min-h-[480px] sm:min-h-[540px]"
-                language={language}
-              />
             </motion.div>
           </div>
         </div>
@@ -238,10 +221,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
             <Sparkles className="w-3.5 h-3.5 text-teal-600" />
             <span>{language === 'en' ? 'The Convergence Architecture' : 'চারটি মূল শক্তির মেলবন্ধন'}</span>
           </motion.div>
-          <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#0D161F] font-bold tracking-tight">
+          <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl lg:text-5xl text-white font-bold tracking-tight">
             {t.home.connectingIdeaHeading}
           </motion.h2>
-          <motion.p variants={sectionHeaderItemVariants} className="text-base sm:text-lg text-slate-600 leading-relaxed font-body">
+          <motion.p variants={sectionHeaderItemVariants} className="text-base sm:text-lg text-slate-300 leading-relaxed font-body">
             {t.home.connectingIdeaParagraph}
           </motion.p>
         </motion.div>
@@ -267,16 +250,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionHeaderContainerVariants}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-6"
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-800 pb-6"
         >
           <div className="space-y-2">
-            <motion.span variants={sectionHeaderItemVariants} className="block text-xs font-semibold tracking-wider uppercase text-teal-600">
+            <motion.span variants={sectionHeaderItemVariants} className="block text-xs font-semibold tracking-wider uppercase text-teal-400">
               {language === 'en' ? 'Operating Architecture' : 'প্রতিষ্ঠিত উদ্যোগসমূহ'}
             </motion.span>
-            <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl font-bold text-[#0D161F]">
+            <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl font-bold text-white">
               {t.home.venturesHeading}
             </motion.h2>
-            <motion.p variants={sectionHeaderItemVariants} className="text-sm text-slate-600">
+            <motion.p variants={sectionHeaderItemVariants} className="text-sm text-slate-400">
               {t.home.venturesSubheading}
             </motion.p>
           </div>
@@ -414,16 +397,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionHeaderContainerVariants}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-6"
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-800 pb-6"
         >
           <div className="space-y-2">
-            <motion.span variants={sectionHeaderItemVariants} className="block text-xs font-semibold tracking-wider uppercase text-teal-600">
+            <motion.span variants={sectionHeaderItemVariants} className="block text-xs font-semibold tracking-wider uppercase text-teal-400">
               {language === 'en' ? 'Intellectual Architecture' : 'বই ও বুদ্ধিবৃত্তিক কাজ'}
             </motion.span>
-            <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl font-bold text-[#0D161F]">
+            <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl font-bold text-white">
               {t.home.ideasPreviewHeading}
             </motion.h2>
-            <motion.p variants={sectionHeaderItemVariants} className="text-sm text-slate-600">
+            <motion.p variants={sectionHeaderItemVariants} className="text-sm text-slate-400">
               {t.home.ideasPreviewSubheading}
             </motion.p>
           </div>

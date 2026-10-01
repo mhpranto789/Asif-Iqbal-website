@@ -109,6 +109,7 @@ const storyChapters: StoryChapterData[] = [
 export const StoryPage: React.FC<StoryPageProps> = ({ onNavigate, language }) => {
   const [activeTab, setActiveTab] = useState<'narrative' | 'architecture'>('narrative');
   const [activeNarratedChapterIndex, setActiveNarratedChapterIndex] = useState<number>(0);
+  const [playTrigger, setPlayTrigger] = useState<number>(0);
   const audioNarratorRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
@@ -117,6 +118,7 @@ export const StoryPage: React.FC<StoryPageProps> = ({ onNavigate, language }) =>
     if (idx !== undefined) {
       setActiveNarratedChapterIndex(idx);
     }
+    setPlayTrigger(Date.now());
     setTimeout(() => {
       audioNarratorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
@@ -205,6 +207,7 @@ export const StoryPage: React.FC<StoryPageProps> = ({ onNavigate, language }) =>
                   chapters={storyChapters}
                   activeChapterIndex={activeNarratedChapterIndex}
                   onActiveChapterChange={setActiveNarratedChapterIndex}
+                  playTrigger={playTrigger}
                 />
               </div>
 

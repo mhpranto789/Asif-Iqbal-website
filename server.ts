@@ -88,6 +88,9 @@ async function startServer() {
     }
   });
 
+  // Serve static files from public directory (images, videos, icons)
+  app.use(express.static(path.join(__dirname, 'public')));
+
   const isProduction = process.env.NODE_ENV === 'production';
   if (!isProduction) {
     const vite = await createViteServer({

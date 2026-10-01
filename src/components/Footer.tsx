@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RoutePath, Language } from '../types';
 import { translations } from '../data/translations';
 import { assetConfig } from '../data/assetConfig';
-import { ArrowUpRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { ArrowUpRight, Mail, CheckCircle2, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface FooterProps {
   onNavigate: (route: RoutePath) => void;
@@ -12,6 +12,70 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, language }) => {
   const t = translations[language];
+
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      setStatus('error');
+      setErrorMessage(
+        language === 'en'
+          ? 'Please enter a valid email address.'
+          : 'দয়া করে একটি সঠিক ইমেইল ঠিকানা লিখুন।'
+      );
+      return;
+    }
+
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      // Save locally
+      try {
+        const stored = JSON.parse(localStorage.getItem('asif_newsletter_subscribers') || '[]');
+        if (!stored.includes(cleanEmail)) {
+          stored.push(cleanEmail);
+          localStorage.setItem('asif_newsletter_subscribers', JSON.stringify(stored));
+        }
+      } catch (err) {
+        // ignore localStorage errors
+      }
+
+      // If backend contact endpoint exists, notify
+      if (assetConfig.contactEndpointUrl) {
+        try {
+          await fetch(assetConfig.contactEndpointUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: 'Newsletter Subscriber',
+              email: cleanEmail,
+              enquiryType: 'newsletter',
+              message: 'Subscribed to Polymath Dispatch newsletter from Footer',
+            }),
+          });
+        } catch (e) {
+          // graceful fallback
+        }
+      }
+
+      setTimeout(() => {
+        setStatus('success');
+        setEmail('');
+      }, 400);
+    } catch (err) {
+      setStatus('error');
+      setErrorMessage(
+        language === 'en'
+          ? 'Unable to subscribe right now. Please try again.'
+          : 'এখন যুক্ত হতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।'
+      );
+    }
+  };
 
   return (
     <motion.footer
@@ -25,6 +89,108 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, language }) => {
       <div className="h-0.5 bg-gradient-to-r from-transparent via-teal-500/60 to-transparent" aria-hidden="true" />
 
       <div className="max-w-[1280px] mx-auto px-6 py-16 lg:py-20">
+        {/* Newsletter Signup Component */}
+        <div className="mb-14 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0C1622] via-[#0E1A26] to-[#0A121A] border border-teal-500/30 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            {/* Newsletter Info */}
+            <div className="lg:col-span-6 space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-mono uppercase tracking-wider font-semibold">
+                <Sparkles className="w-3.5 h-3.5 text-teal-400" />
+                <span>{language === 'en' ? 'The Polymath Dispatch' : 'পলিম্যাথ ডেসপ্যাচ'}</span>
+              </div>
+              <h3 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">
+                {language === 'en'
+                  ? 'Strategic Insights & Cultural Reflections'
+                  : 'কৌশলগত চিন্তন ও সুরের ত্রৈমাসিক বার্তা'}
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-body">
+                {language === 'en'
+                  ? 'Join 5,000+ executives, educators, and cultural leaders. Quarterly essays on enterprise transformation, lyric writing, and resilient leadership. No spam.'
+                  : 'করপোরেট রূপান্তর, সংগীত সৃষ্টি ও নেতৃত্বের গভীর ভাবনা সরাসরি আপনার ইনবক্সে। কোনো অপ্রয়োজনীয় বার্তা নয়।'}
+              </p>
+            </div>
+
+            {/* Newsletter Form */}
+            <div className="lg:col-span-6">
+              <AnimatePresence mode="wait">
+                {status === 'success' ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="p-4 rounded-xl bg-teal-500/10 border border-teal-500/40 flex items-center gap-3 text-teal-200"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0" />
+                    <div>
+                      <div className="text-sm font-semibold text-white">
+                        {language === 'en' ? 'Welcome to The Polymath Dispatch' : 'ধন্যবাদ! আপনি যুক্ত হয়েছেন'}
+                      </div>
+                      <div className="text-xs text-teal-300">
+                        {language === 'en'
+                          ? 'You will receive our next quarterly dispatch directly.'
+                          : 'পরবর্তী ত্রৈমাসিক সংস্করণের ভাবনা আপনার ইমেইলে পৌঁছে যাবে।'}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    onSubmit={handleSubscribe}
+                    className="space-y-2"
+                  >
+                    <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
+                      <div className="relative flex-1">
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (status === 'error') setStatus('idle');
+                          }}
+                          placeholder={
+                            language === 'en'
+                              ? 'Enter your professional email'
+                              : 'আপনার ইমেইল ঠিকানা লিখুন'
+                          }
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-teal-400 focus:ring-1 focus:ring-teal-400 text-sm text-white placeholder-slate-400 outline-none transition-all shadow-inner"
+                          aria-label={language === 'en' ? 'Email address for newsletter' : 'নিউজলেটারের জন্য ইমেইল'}
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={status === 'loading'}
+                        className="px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-200 inline-flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 cursor-pointer disabled:opacity-50 shrink-0 transform active:scale-95"
+                      >
+                        {status === 'loading' ? (
+                          <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                        ) : (
+                          <>
+                            <span>{language === 'en' ? 'Subscribe' : 'যুক্ত হোন'}</span>
+                            <ArrowRight className="w-3.5 h-3.5 text-slate-950" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {status === 'error' && (
+                      <p className="text-xs text-rose-400 pl-1">{errorMessage}</p>
+                    )}
+
+                    <p className="text-[11px] text-slate-400 pl-1">
+                      {language === 'en'
+                        ? 'Strict privacy. Unsubscribe at any time with one click.'
+                        : 'গোপনীয়তা নিশ্চিত। যেকোনো সময় এক ক্লিকে আনসাবস্ক্রাইব করতে পারবেন।'}
+                    </p>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-4">

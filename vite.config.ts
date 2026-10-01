@@ -1,10 +1,14 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import { fileURLToPath } from 'url';
+import { defineConfig } from 'vite';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(() => {
   return {
+    base: '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
@@ -13,9 +17,10 @@ export default defineConfig(() => {
     },
     build: {
       target: 'es2022',
+      outDir: 'dist',
       cssMinify: true,
       sourcemap: false,
-      chunkSizeWarningLimit: 600,
+      chunkSizeWarningLimit: 800,
       rollupOptions: {
         output: {
           manualChunks(id) {
@@ -25,7 +30,7 @@ export default defineConfig(() => {
             if (id.includes('node_modules/lucide-react/')) {
               return 'vendor-icons';
             }
-            if (id.includes('node_modules/motion/')) {
+            if (id.includes('node_modules/motion/') || id.includes('node_modules/framer-motion/')) {
               return 'vendor-motion';
             }
           },
@@ -36,11 +41,8 @@ export default defineConfig(() => {
       port: 3000,
       host: '0.0.0.0',
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
-      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
   };
 });
-

@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
+  :root,
+  html.light {
     --color-ink: #0D161F;
     --color-slate-dark: #121E2A;
     --color-paper: #F8FAFC;
@@ -13,6 +14,21 @@
     --color-muted: #64748B;
     --color-border: #E2E8F0;
     --color-border-dark: rgba(255, 255, 255, 0.08);
+  }
+
+  html.dark,
+  :root[data-theme='dark'] {
+    --color-ink: #F4F6F7;
+    --color-slate-dark: #0D1622;
+    --color-paper: #080E15;
+    --color-white: #0D1622;
+    --color-teal: #14B8A6;
+    --color-teal-light: #2DD4BF;
+    --color-emerald: #34D399;
+    --color-amber: #FBBF24;
+    --color-muted: #94A3B8;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-dark: rgba(255, 255, 255, 0.12);
   }
 
   html {
@@ -28,12 +44,123 @@
     background-color: var(--color-paper);
     line-height: 1.65;
     overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   ::selection {
     background-color: #0D9488;
     color: #FFFFFF;
   }
+}
+
+/* ==========================================================================
+   THEME PALETTE SYSTEM: DARK & LIGHT INVERSIONS
+   ========================================================================== */
+
+/* Dark Mode Inversions (Deep ink background, lighter text) */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #080E15 !important;
+  color: #F4F6F7 !important;
+}
+
+/* Invert light cards into deep obsidian cards in dark mode */
+html.dark .bg-white {
+  background-color: #0D1622 !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+/* Invert soft light backgrounds */
+html.dark .bg-slate-50,
+html.dark .bg-\[\#F4F6F7\] {
+  background-color: #080E15 !important;
+}
+
+html.dark .bg-slate-100 {
+  background-color: #121F2D !important;
+}
+
+html.dark .bg-slate-100\/90,
+html.dark .bg-slate-200\/80 {
+  background-color: #162536 !important;
+}
+
+/* Accent badge backgrounds in dark mode */
+html.dark .bg-teal-50 {
+  background-color: rgba(13, 148, 136, 0.18) !important;
+  border-color: rgba(45, 212, 191, 0.3) !important;
+  color: #5EEAD4 !important;
+}
+
+html.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.18) !important;
+  border-color: rgba(251, 191, 36, 0.3) !important;
+  color: #FCD34D !important;
+}
+
+/* Invert text colors in dark mode */
+html.dark .text-\[\#0D161F\],
+html.dark .text-\[\#101B25\],
+html.dark .text-slate-900,
+html.dark .text-slate-950,
+html.dark .text-slate-800 {
+  color: #F8FAFC !important;
+}
+
+html.dark .text-slate-700,
+html.dark .text-slate-600 {
+  color: #CBD5E1 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+html.dark .text-teal-900,
+html.dark .text-teal-800 {
+  color: #2DD4BF !important;
+}
+
+html.dark .text-teal-700 {
+  color: #5EEAD4 !important;
+}
+
+/* Border overrides in dark mode */
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-200\/90,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-300 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Inputs & interactive controls in dark mode */
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark textarea,
+html.dark select {
+  background-color: #0A121A !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Shadows in dark mode: subtler, deep glow */
+html.dark .shadow-lg,
+html.dark .shadow-xl,
+html.dark .shadow-2xl {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* ==========================================================================

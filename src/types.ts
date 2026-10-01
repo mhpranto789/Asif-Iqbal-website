@@ -1,5 +1,7 @@
 export type Language = 'en' | 'bn';
 
+export type Theme = 'dark' | 'light';
+
 export type RoutePath = 'home' | 'story' | 'work' | 'music' | 'ideas' | 'speaking' | 'blog' | 'contact';
 
 export interface BlogArticle {

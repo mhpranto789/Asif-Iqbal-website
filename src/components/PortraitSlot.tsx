@@ -78,13 +78,22 @@ export const PortraitSlot: React.FC<PortraitSlotProps> = ({
 
   if (activeUrl && !imgError) {
     return (
-      <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#121E2A] to-[#0A1118] border border-teal-500/30 shadow-2xl group ${className}`}>
-        <img
+      <motion.div
+        initial="initial"
+        whileHover="hover"
+        className={`relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#121E2A] to-[#0A1118] border border-teal-500/30 shadow-2xl transition-all duration-300 hover:border-teal-400/50 hover:shadow-teal-500/20 group cursor-pointer ${className}`}
+      >
+        <motion.img
           src={activeUrl}
           alt={altText}
           onError={() => setImgError(true)}
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          variants={{
+            initial: { scale: 1 },
+            hover: { scale: 1.05 },
+          }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full h-full min-h-[480px] sm:min-h-[540px] object-cover object-top will-change-transform"
         />
         {/* Cinematic Vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1118] via-black/20 to-transparent pointer-events-none" />
@@ -93,32 +102,14 @@ export const PortraitSlot: React.FC<PortraitSlotProps> = ({
         <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-teal-500/10 to-transparent pointer-events-none" />
 
         {/* Floating Executive Tag */}
-        <div className="absolute top-4 left-4 z-10">
+        <div className="absolute top-4 left-4 z-10 pointer-events-none">
           <div className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[11px] text-teal-300 font-medium flex items-center gap-1.5 shadow-lg">
             <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
             <span>{language === 'en' ? 'Executive & Lyricist' : 'করপোরেট রূপান্তরকামী ও গীতিকবি'}</span>
           </div>
         </div>
 
-        {/* Bottom Editorial Caption */}
-        <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between text-xs text-white/90 bg-black/50 backdrop-blur-md p-3 rounded-xl border border-white/10">
-          <div>
-            <div className="font-display font-semibold tracking-wide text-white">
-              {language === 'en' ? 'Asif Iqbal' : 'আসিফ ইকবাল'}
-            </div>
-            <div className="text-[10px] text-slate-300">
-              {language === 'en' ? 'Polymath Builder' : 'সংস্কৃতি ও রূপান্তরের সেতুবন্ধ'}
-            </div>
-          </div>
 
-          <button
-            onClick={() => setShowInput(!showInput)}
-            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            title="Change photo"
-          >
-            <Camera className="w-3.5 h-3.5" />
-          </button>
-        </div>
 
         {/* Dropdown Change Photo Box */}
         {showInput && (
@@ -167,7 +158,7 @@ export const PortraitSlot: React.FC<PortraitSlotProps> = ({
             </button>
           </div>
         )}
-      </div>
+      </motion.div>
     );
   }
 
