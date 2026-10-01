@@ -96,18 +96,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
 
               {/* H1 & Dual Typography */}
               <motion.div variants={heroTextItemVariants} className="space-y-3">
-                <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white text-balance leading-[1.08] drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]">
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white text-balance leading-[1.08] drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]">
                   {language === 'en' ? (
                     <>
-                      <span>Asif Iqbal</span>
-                      <span className="block text-2xl sm:text-3xl font-bengali-heading font-medium text-teal-300 pt-2 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                      <span className="font-montserrat font-bold tracking-tight inline-block text-white">
+                        Asif Iqbal
+                      </span>
+                      <span className="block text-2xl sm:text-3xl font-stylish-bengali font-medium text-teal-300 pt-1 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                         আসিফ ইকবাল
                       </span>
                     </>
                   ) : (
                     <>
-                      <span className="font-bengali-heading">আসিফ ইকবাল</span>
-                      <span className="block text-2xl sm:text-3xl font-display font-medium text-teal-300 pt-2 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                      <span className="font-stylish-bengali font-bold tracking-wide inline-block">
+                        আসিফ ইকবাল
+                      </span>
+                      <span className="block text-2xl sm:text-3xl font-montserrat font-bold text-teal-300 pt-1 tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                         Asif Iqbal
                       </span>
                     </>
