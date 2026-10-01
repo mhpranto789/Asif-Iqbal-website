@@ -3,21 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RoutePath, Language, EnquiryCategory } from './types';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { ScrollProgressBar } from './components/ScrollReveal';
+import { PageLoader } from './components/PageLoader';
 import { HomePage } from './pages/HomePage';
-import { StoryPage } from './pages/StoryPage';
-import { WorkPage } from './pages/WorkPage';
-import { MusicPage } from './pages/MusicPage';
-import { IdeasPage } from './pages/IdeasPage';
-import { SpeakingPage } from './pages/SpeakingPage';
-import { BlogPage } from './pages/BlogPage';
-import { ContactPage } from './pages/ContactPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+
+// Code-split non-critical routes for lightning-fast initial load & minimal bundle
+const StoryPage = lazy(() => import('./pages/StoryPage').then(m => ({ default: m.StoryPage })));
+const WorkPage = lazy(() => import('./pages/WorkPage').then(m => ({ default: m.WorkPage })));
+const MusicPage = lazy(() => import('./pages/MusicPage').then(m => ({ default: m.MusicPage })));
+const IdeasPage = lazy(() => import('./pages/IdeasPage').then(m => ({ default: m.IdeasPage })));
+const SpeakingPage = lazy(() => import('./pages/SpeakingPage').then(m => ({ default: m.SpeakingPage })));
+const BlogPage = lazy(() => import('./pages/BlogPage').then(m => ({ default: m.BlogPage })));
+const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 export default function App() {
   const [language, setLanguage] = useState<Language>(() => {
@@ -175,7 +178,9 @@ export default function App() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.28, ease: 'easeOut' }}
             >
-              <NotFoundPage onNavigate={handleNavigate} language={language} />
+              <Suspense fallback={<PageLoader />}>
+                <NotFoundPage onNavigate={handleNavigate} language={language} />
+              </Suspense>
             </motion.div>
           ) : (
             <motion.div
@@ -188,26 +193,30 @@ export default function App() {
               {currentRoute === 'home' && (
                 <HomePage onNavigate={handleNavigate} language={language} />
               )}
-              {currentRoute === 'story' && (
-                <StoryPage onNavigate={handleNavigate} language={language} />
-              )}
-              {currentRoute === 'work' && (
-                <WorkPage onNavigate={handleNavigate} language={language} />
-              )}
-              {currentRoute === 'music' && (
-                <MusicPage onNavigate={handleNavigate} language={language} />
-              )}
-              {currentRoute === 'ideas' && (
-                <IdeasPage onNavigate={handleNavigate} language={language} />
-              )}
-              {currentRoute === 'speaking' && (
-                <SpeakingPage onNavigate={handleNavigate} language={language} />
-              )}
-              {currentRoute === 'blog' && (
-                <BlogPage onNavigate={handleNavigate} language={language} />
-              )}
-              {currentRoute === 'contact' && (
-                <ContactPage initialCategory={preselectedCategory} language={language} />
+              {currentRoute !== 'home' && (
+                <Suspense fallback={<PageLoader />}>
+                  {currentRoute === 'story' && (
+                    <StoryPage onNavigate={handleNavigate} language={language} />
+                  )}
+                  {currentRoute === 'work' && (
+                    <WorkPage onNavigate={handleNavigate} language={language} />
+                  )}
+                  {currentRoute === 'music' && (
+                    <MusicPage onNavigate={handleNavigate} language={language} />
+                  )}
+                  {currentRoute === 'ideas' && (
+                    <IdeasPage onNavigate={handleNavigate} language={language} />
+                  )}
+                  {currentRoute === 'speaking' && (
+                    <SpeakingPage onNavigate={handleNavigate} language={language} />
+                  )}
+                  {currentRoute === 'blog' && (
+                    <BlogPage onNavigate={handleNavigate} language={language} />
+                  )}
+                  {currentRoute === 'contact' && (
+                    <ContactPage initialCategory={preselectedCategory} language={language} />
+                  )}
+                </Suspense>
               )}
             </motion.div>
           )}

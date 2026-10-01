@@ -86,7 +86,7 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster={posterUrl}
           onLoadedData={() => {
             setIsLoaded(true);
