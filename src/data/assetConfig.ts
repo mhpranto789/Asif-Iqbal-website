@@ -18,16 +18,16 @@ export const assetConfig = {
 
   // Outbound Verified Links for Ventures (Leave empty if pending official verification)
   ventureLinks: {
-    achieveConsulting: "", // e.g. "https://achievebd.com"
+    achieveConsulting: "https://www.achieveconsultingbd.com/", // official corporate advisory portal
     acis: "",
     asix: "https://asixbd.com", // approved artisan craft venture
-    gaanChill: "https://gaanchill.com", // GaanChill Music platform
+    gaanChill: "https://www.youtube.com/@GaanchillMusicOfficial", // GaanChill Music platform & official YouTube channel
   },
 
   // Approved Social Links (Only verified profiles)
   socialLinks: {
     linkedin: "https://www.linkedin.com/in/asif-iqbal",
-    youtube: "https://www.youtube.com/@GaanChillMusic",
+    youtube: "https://www.youtube.com/@GaanchillMusicOfficial",
     facebook: "",
     twitter: "",
   },

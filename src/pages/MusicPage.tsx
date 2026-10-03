@@ -153,21 +153,70 @@ export const MusicPage: React.FC<MusicPageProps> = ({ onNavigate, language }) =>
                           Close
                         </button>
                       </div>
-                      <p className="text-slate-300">
-                        {language === 'en'
-                          ? 'Official recording published under verified copyright. Stream the full song on YouTube / GaanChill.'
-                          : 'অফিসিয়াল অনুমোদিত প্ল্যাটফর্মে শুনতে নিচের বাটনে ক্লিক করুন।'}
-                      </p>
-                      {song.externalLink && (
-                        <a
-                          href={song.externalLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold transition-colors cursor-pointer"
-                        >
-                          <span>Listen on YouTube / GaanChill</span>
-                          <ArrowUpRight className="w-3.5 h-3.5" />
-                        </a>
+
+                      {song.youtubeId ? (
+                        <div className="space-y-3 pt-1">
+                          <div className="aspect-video w-full rounded-xl overflow-hidden border border-white/10 bg-black shadow-lg">
+                            <iframe
+                              src={`https://www.youtube-nocookie.com/embed/${song.youtubeId}?autoplay=1&rel=0`}
+                              title={song.titleEn}
+                              className="w-full h-full border-0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                            <span className="text-slate-300 text-xs">
+                              {language === 'en'
+                                ? 'Official music video on YouTube'
+                                : 'ইউটিউবে অফিশিয়াল ভিডিও গান'}
+                            </span>
+                            <a
+                              href={song.externalLink || `https://www.youtube.com/watch?v=${song.youtubeId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition-colors cursor-pointer text-xs"
+                            >
+                              <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                              </svg>
+                              <span>Watch on YouTube</span>
+                              <ArrowUpRight className="w-3 h-3" />
+                            </a>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-slate-300">
+                            {language === 'en'
+                              ? 'Official recording published under verified copyright. Stream the full song on verified platforms.'
+                              : 'অফিসিয়াল অনুমোদিত প্ল্যাটফর্মে শুনতে নিচের বাটনে ক্লিক করুন।'}
+                          </p>
+                          {song.spotifyUrl ? (
+                            <a
+                              href={song.spotifyUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#1DB954] hover:bg-[#1ed760] text-slate-950 font-bold transition-colors cursor-pointer shadow-md"
+                            >
+                              <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+                                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                              </svg>
+                              <span>{language === 'en' ? 'Stream on Spotify' : 'স্পটিফাইতে শুনুন'}</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </a>
+                          ) : song.externalLink && (
+                            <a
+                              href={song.externalLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold transition-colors cursor-pointer"
+                            >
+                              <span>Listen on YouTube / GaanChill</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </a>
+                          )}
+                        </>
                       )}
                     </motion.div>
                   ) : null}
@@ -180,10 +229,36 @@ export const MusicPage: React.FC<MusicPageProps> = ({ onNavigate, language }) =>
                     className="px-4 py-2.5 rounded-xl bg-[#0D161F] hover:bg-teal-600 text-white text-xs font-semibold uppercase tracking-wider transition-colors inline-flex items-center gap-2 cursor-pointer shadow-sm"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>{language === 'en' ? 'Stream & Details' : 'শুনুন ও তথ্য'}</span>
+                    <span>{language === 'en' ? (song.youtubeId ? 'Watch Video' : 'Stream & Details') : (song.youtubeId ? 'ভিডিও দেখুন' : 'শুনুন ও তথ্য')}</span>
                   </button>
 
-                  {song.externalLink && (
+                  {song.spotifyUrl ? (
+                    <a
+                      href={song.spotifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-[#1DB954] hover:text-[#1ed760] font-semibold transition-colors"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                      </svg>
+                      <span>Spotify</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : song.youtubeId ? (
+                    <a
+                      href={song.externalLink || `https://www.youtube.com/watch?v=${song.youtubeId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-red-600 hover:text-red-700 font-semibold transition-colors"
+                    >
+                      <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                      <span>YouTube</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : song.externalLink && (
                     <a
                       href={song.externalLink}
                       target="_blank"

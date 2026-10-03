@@ -286,7 +286,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, language }) => {
             </h3>
             <ul className="space-y-2.5 text-sm text-slate-300">
               <li className="flex items-center justify-between">
-                <span>Achieve Consulting</span>
+                {assetConfig.ventureLinks.achieveConsulting ? (
+                  <a
+                    href={assetConfig.ventureLinks.achieveConsulting}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 hover:text-teal-400 transition-colors"
+                  >
+                    <span>Achieve Consulting</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-teal-400" />
+                  </a>
+                ) : (
+                  <span>Achieve Consulting</span>
+                )}
                 <span className="text-xs text-slate-400 font-mono">Transformation</span>
               </li>
               <li className="flex items-center justify-between">

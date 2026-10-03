@@ -3,7 +3,7 @@ import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
 import { publishedBooks, strategicPillars, aimFrameworks } from '../data/siteContent';
 import { InteractiveFramework } from '../components/InteractiveFramework';
-import { Lightbulb, ArrowRight } from 'lucide-react';
+import { Lightbulb, ArrowRight, ArrowUpRight, ShoppingBag } from 'lucide-react';
 import { motion } from 'motion/react';
 import { ScrollSection, ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
 
@@ -98,17 +98,34 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                  <span>
-                    {language === 'en' ? 'Physical editions in print' : 'মুদ্রিত সংস্করণ সহজলভ্য'}
-                  </span>
-                  <button
-                    onClick={() => onNavigate('contact')}
-                    className="text-xs font-bold text-teal-700 hover:text-teal-900 inline-flex items-center gap-1 cursor-pointer transition-colors"
-                  >
-                    <span>{language === 'en' ? 'Inquire about copies' : 'বই সংক্রান্ত তথ্য'}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 text-slate-500">
+                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>
+                      {language === 'en' ? 'In Stock on Rokomari' : 'রকমারিতে পাওয়া যাচ্ছে'}
+                    </span>
+                  </div>
+
+                  {book.orderUrl ? (
+                    <a
+                      href={book.orderUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0D161F] hover:bg-teal-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm hover:shadow-md cursor-pointer group"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5 text-teal-400 group-hover:scale-110 transition-transform" />
+                      <span>{language === 'en' ? 'Order on Rokomari' : 'রকমারি থেকে অর্ডার করুন'}</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-teal-400" />
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => onNavigate('contact')}
+                      className="text-xs font-bold text-teal-700 hover:text-teal-900 inline-flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                      <span>{language === 'en' ? 'Inquire about copies' : 'বই সংক্রান্ত তথ্য'}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               </motion.div>
             </StaggerItem>
@@ -207,10 +224,21 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
           ))}
         </StaggerContainer>
 
-        <ScrollReveal className="p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-600 font-body">
-          {language === 'en'
-            ? 'Detailed mechanics and proprietary toolkits are deployed exclusively during bespoke Achieve Consulting engagements.'
-            : 'এই ফ্রেমওয়ার্কসমূহের বাস্তব প্রয়োগ ও ইন্টারনাল টুলকিট অ্যাচিভ কনসাল্টিংয়ের পরামর্শ সেবায় ব্যবহৃত হয়।'}
+        <ScrollReveal className="p-4 sm:p-5 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-600 font-body flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <span>
+            {language === 'en'
+              ? 'Detailed mechanics and proprietary toolkits are deployed exclusively during bespoke Achieve Consulting engagements.'
+              : 'এই ফ্রেমওয়ার্কসমূহের বাস্তব প্রয়োগ ও ইন্টারনাল টুলকিট অ্যাচিভ কনসাল্টিংয়ের পরামর্শ সেবায় ব্যবহৃত হয়।'}
+          </span>
+          <a
+            href="https://www.achieveconsultingbd.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-900 shrink-0 transition-colors"
+          >
+            <span>Visit Achieve Consulting</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
         </ScrollReveal>
       </ScrollSection>
     </div>

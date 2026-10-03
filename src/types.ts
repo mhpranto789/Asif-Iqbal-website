@@ -67,6 +67,7 @@ export interface SongItem {
   contextBn: string;
   youtubeId?: string;
   externalLink?: string;
+  spotifyUrl?: string;
 }
 
 export interface BookItem {
@@ -84,6 +85,7 @@ export interface BookItem {
   descriptionBn: string;
   keyTakeawaysEn: string[];
   keyTakeawaysBn: string[];
+  orderUrl?: string;
 }
 
 export interface FrameworkStep {

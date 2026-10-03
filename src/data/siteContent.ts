@@ -23,7 +23,7 @@ export const fourVentures: VentureItem[] = [
       'এইম (Achieve Ignite Mentoring)-এর মাধ্যমে শীর্ষ নেতৃত্বের মানসিক বিকাশ',
       'বোর্ডরুমের কৌশলের সাথে মাঠপর্যায়ের নিখুঁত বাস্তবায়ন সংযোগ'
     ],
-    officialUrl: '',
+    officialUrl: 'https://www.achieveconsultingbd.com/',
     enquiryType: 'business'
   },
   {
@@ -98,7 +98,7 @@ export const fourVentures: VentureItem[] = [
       'ডিজিটাল মিউজিক কপিরাইট ও শিল্পীস্বত্বের আধুনিক ব্যবস্থাপনা',
       'আসিফ ইকবালের চার দশকেরও বেশি সময়ের সৃষ্টিশীল গানের অভিজ্ঞতার প্রতিফলন'
     ],
-    officialUrl: 'https://gaanchill.com',
+    officialUrl: 'https://www.youtube.com/@GaanchillMusicOfficial',
     enquiryType: 'creative'
   }
 ];
@@ -173,21 +173,22 @@ export const musicItems: SongItem[] = [
     contextEn: 'A foundational milestone in modern Bengali rock poetry. Written by Asif Iqbal and performed by James, "Anonna" bridged raw emotional intimacy with poetic urban realism, defining a generation of Bengali music lovers.',
     contextBn: 'বাংলা আধুনিক ব্যান্ড সংগীতের ইতিহাসের এক কালজয়ী অধ্যায়। আসিফ ইকবালের কথায় ও জেমসের কণ্ঠে এই গানটি নগর জীবনের প্রেম ও ব্যাকুলতাকে এক অনন্য কাব্যিক উচ্চতায় নিয়ে যায়।',
     youtubeId: '',
-    externalLink: 'https://www.youtube.com/@GaanChillMusic'
+    externalLink: 'https://open.spotify.com/track/6j1FTv81yFdARO7LQPfwsj?si=11dedbc2f7fb4051',
+    spotifyUrl: 'https://open.spotify.com/track/6j1FTv81yFdARO7LQPfwsj?si=11dedbc2f7fb4051'
   },
   {
     id: 'o-priyotoma',
     titleEn: 'O Priyotoma (ও প্রিয়তমা)',
     titleBn: 'ও প্রিয়তমা',
-    artistCredit: 'Vocals: Arijit Singh & Somlata Acharyya Chowdhury / Contemporary recording',
+    artistCredit: 'Vocals: Arijit Singh & Somlata Acharyya Chowdhury · Tune: Akassh Sen',
     roleEn: 'Lyricist',
     roleBn: 'গীতিকার',
     year: 2023,
     yearText: '2023',
     contextEn: 'A modern romantic anthem that captivated Bengali-speaking listeners globally. Its heartfelt lyrical cadence resonated across generations, becoming one of the most widely shared and sung pieces in contemporary Bengali cinema.',
     contextBn: 'সাম্প্রতিক সময়ের অন্যতম জনপ্রিয় রোমান্টিক গান। আসিফ ইকবালের সাবলীল অথচ গভীর ভাবপূর্ণ কথার ছোঁয়ায় গানটি দুই বাংলার কোটি কোটি শ্রোতার হৃদয়ে স্থান করে নেয়।',
-    youtubeId: '',
-    externalLink: 'https://www.youtube.com/@GaanChillMusic'
+    youtubeId: 'KUff03C8Ki0',
+    externalLink: 'https://youtu.be/KUff03C8Ki0?si=gaXZ6MDOQuWoQb0O'
   }
 ];
 
@@ -241,7 +242,8 @@ export const publishedBooks: BookItem[] = [
       'ক্ষণস্থায়ী আবেগের বদলে শান্ত ও সুশৃঙ্খল অভ্যাসের শক্তি',
       'দীর্ঘমেয়াদি অনিশ্চয়তার সময়েও মানসিক ধৈর্য বজায় রাখার কৌশল',
       'বাইরের কোলাহল ও দ্বিধা এড়িয়ে নিজের লক্ষ্যে অবিচল থাকা'
-    ]
+    ],
+    orderUrl: 'https://www.rokomari.com/book/457335/jodi-lokkho-thake-otut'
   },
   {
     id: 'bhabia-korio-kaaj',
@@ -265,7 +267,8 @@ export const publishedBooks: BookItem[] = [
       'হুজুগে সিদ্ধান্তের ক্ষতি বনাম ধীরস্থির চিন্তার সুদূরপ্রসারী লাভ',
       'গুরুত্বপূর্ণ পদক্ষেপ নেওয়ার আগে নিজের অন্ধবিন্দুগুলো চিহ্নিত করা',
       'ব্যক্তিগত মূল্যবোধের সাথে প্রাতিষ্ঠানিক সিদ্ধান্তের সামঞ্জস্য রক্ষা'
-    ]
+    ],
+    orderUrl: 'https://www.rokomari.com/book/545102/bhabiya-koriyo-kaj'
   },
   {
     id: 'brikkho-tomar-naam-ki',

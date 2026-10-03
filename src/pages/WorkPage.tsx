@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
 import { fourVentures, careerMilestones } from '../data/siteContent';
@@ -12,15 +12,7 @@ interface WorkPageProps {
 }
 
 export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, language }) => {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'enterprise' | 'social'>('all');
   const t = translations[language];
-
-  const filteredVentures = fourVentures.filter((v) => {
-    if (activeFilter === 'all') return true;
-    if (activeFilter === 'enterprise') return v.id === 'achieve-consulting' || v.id === 'acis';
-    if (activeFilter === 'social') return v.id === 'asix' || v.id === 'gaanchill-music';
-    return true;
-  });
 
   return (
     <div className="space-y-16 lg:space-y-24 py-10 pb-24">
@@ -46,52 +38,16 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, language }) => {
 
       {/* PART 1: THE FOUR ACTIVE VENTURES (Intersection Observer Scroll Animation) */}
       <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-10">
-        <ScrollReveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
-          <div>
-            <span className="text-xs font-mono uppercase text-teal-600 font-semibold">Section 01</span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0D161F]">
-              {language === 'en' ? 'Active Entrepreneurial Ventures' : 'সক্রিয় প্রাতিষ্ঠানিক উদ্যোগসমূহ'}
-            </h2>
-          </div>
-
-          {/* Interactive Filter Pills */}
-          <div className="flex flex-wrap gap-1.5 p-1 bg-slate-100 rounded-xl">
-            <button
-              onClick={() => setActiveFilter('all')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activeFilter === 'all'
-                  ? 'bg-white text-teal-800 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              {language === 'en' ? 'All (4 Platforms)' : 'সকল উদ্যোগ (৪টি)'}
-            </button>
-            <button
-              onClick={() => setActiveFilter('enterprise')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activeFilter === 'enterprise'
-                  ? 'bg-white text-teal-800 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              {language === 'en' ? 'Consulting & AI' : 'কনসাল্টিং ও এআই'}
-            </button>
-            <button
-              onClick={() => setActiveFilter('social')}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activeFilter === 'social'
-                  ? 'bg-white text-teal-800 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              {language === 'en' ? 'Artisan Craft & Culture' : 'কারুশিল্প ও সংগীত'}
-            </button>
-          </div>
+        <ScrollReveal className="border-b border-slate-200 pb-5">
+          <span className="text-xs font-mono uppercase text-teal-600 font-semibold">Section 01</span>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0D161F]">
+            {language === 'en' ? 'Active Entrepreneurial Ventures' : 'সক্রিয় প্রাতিষ্ঠানিক উদ্যোগসমূহ'}
+          </h2>
         </ScrollReveal>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <AnimatePresence>
-            {filteredVentures.map((venture) => (
+            {fourVentures.map((venture) => (
               <StaggerItem key={venture.id}>
                 <motion.div
                   whileHover={{ y: -4 }}
@@ -162,9 +118,26 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, language }) => {
                         href={venture.officialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-bold text-teal-700 hover:text-teal-900 transition-colors"
+                        className={`inline-flex items-center gap-1.5 text-xs font-bold transition-colors ${
+                          venture.officialUrl.includes('youtube.com')
+                            ? 'text-red-600 hover:text-red-700'
+                            : 'text-teal-700 hover:text-teal-900'
+                        }`}
                       >
-                        <span>Visit Venture</span>
+                        {venture.officialUrl.includes('youtube.com') && (
+                          <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                          </svg>
+                        )}
+                        <span>
+                          {venture.officialUrl.includes('youtube.com')
+                            ? language === 'en'
+                              ? 'Official YouTube'
+                              : 'অফিসিয়াল ইউটিউব'
+                            : language === 'en'
+                            ? 'Visit Venture'
+                            : 'উদ্যোগ দেখুন'}
+                        </span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
                       </a>
                     )}
