@@ -26,9 +26,9 @@ export const assetConfig = {
 
   // Approved Social Links (Only verified profiles)
   socialLinks: {
-    linkedin: "https://www.linkedin.com/in/asif-iqbal",
+    linkedin: "https://www.linkedin.com/in/asifiqbalctg?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+    facebook: "https://www.facebook.com/asif.iqbal.asix",
     youtube: "https://www.youtube.com/@GaanchillMusicOfficial",
-    facebook: "",
     twitter: "",
   },
 

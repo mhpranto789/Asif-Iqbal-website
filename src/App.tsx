@@ -167,8 +167,8 @@ export default function App() {
         onToggleLanguage={handleToggleLanguage}
       />
 
-      {/* Semantic Main Content Area with Buttery Smooth Page Transitions */}
-      <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>
+      {/* Semantic Main Content Area with Buttery Smooth Page Transitions & Mobile Bar Clearance */}
+      <main id="main-content" className="flex-1 focus:outline-none pb-16 md:pb-0" tabIndex={-1}>
         <AnimatePresence mode="wait">
           {isNotFound ? (
             <motion.div

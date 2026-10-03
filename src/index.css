@@ -251,3 +251,50 @@ html[lang="bn"] h4 {
 ::-webkit-scrollbar-thumb:hover {
   background: #0D9488;
 }
+
+/* ==========================================================================
+   CROSS-DEVICE RESPONSIVE OPTIMIZATIONS
+   ========================================================================== */
+
+/* iOS Safe Area Insets for notches, dynamic islands & home indicator bar */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+
+/* Prevent accidental horizontal scrolling across all viewports */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Touch target optimizations for mobile devices */
+@media (pointer: coarse) {
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Prevent iOS Safari involuntary zoom on focus by ensuring minimum 16px font-size */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}

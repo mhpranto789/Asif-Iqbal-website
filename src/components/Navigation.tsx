@@ -485,8 +485,8 @@ export const Navigation: React.FC<NavigationProps> = ({
                 </button>
               </div>
 
-              {/* Bottom Sheet Utilities with Sleek Language Selector */}
-              <div className="p-4 bg-black/40 border-t border-white/10 flex items-center justify-between gap-3">
+              {/* Bottom Sheet Utilities with Safe Area Insets */}
+              <div className="p-4 pb-[max(1.25rem,env(safe-area-inset-bottom,0px))] bg-black/40 border-t border-white/10 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-1.5">
                   <Globe className="w-3.5 h-3.5 text-teal-400" />
                   <span className="text-xs text-slate-400 font-mono">
@@ -526,67 +526,68 @@ export const Navigation: React.FC<NavigationProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Modern Thumb-Friendly Mobile Bottom Navigation Bar */}
-      <div className="md:hidden fixed bottom-3 left-0 right-0 z-40 px-4 pointer-events-none">
-        <div className="max-w-sm mx-auto bg-[#0D161F]/92 backdrop-blur-xl border border-white/15 shadow-xl rounded-full p-1.5 flex items-center justify-around pointer-events-auto text-white">
+      {/* Modern Thumb-Friendly Mobile Bottom Navigation Bar with Safe Area Support */}
+      <div className="md:hidden fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-40 px-4 pointer-events-none">
+        <div className="max-w-sm mx-auto bg-[#0D161F]/95 backdrop-blur-xl border border-white/20 shadow-2xl rounded-full p-1.5 flex items-center justify-around pointer-events-auto text-white">
           <button
             onClick={() => handleNavClick('home')}
-            className={`flex flex-col items-center justify-center p-2 rounded-full transition-colors cursor-pointer ${
+            className={`min-w-[44px] min-h-[44px] flex flex-col items-center justify-center rounded-full transition-colors cursor-pointer ${
               currentRoute === 'home'
                 ? 'bg-teal-600 text-white shadow-xs'
                 : 'text-slate-300 hover:text-white'
             }`}
             title="Home"
+            aria-label="Navigate to Home"
           >
             <Home className="w-4 h-4" />
-            <span className="sr-only">Home</span>
           </button>
 
           <button
             onClick={() => handleNavClick('story')}
-            className={`flex flex-col items-center justify-center p-2 rounded-full transition-colors cursor-pointer ${
+            className={`min-w-[44px] min-h-[44px] flex flex-col items-center justify-center rounded-full transition-colors cursor-pointer ${
               currentRoute === 'story'
                 ? 'bg-teal-600 text-white shadow-xs'
                 : 'text-slate-300 hover:text-white'
             }`}
             title="Story"
+            aria-label="Navigate to Story"
           >
             <Compass className="w-4 h-4" />
-            <span className="sr-only">Story</span>
           </button>
 
           <button
             onClick={() => handleNavClick('work')}
-            className={`flex flex-col items-center justify-center p-2 rounded-full transition-colors cursor-pointer ${
+            className={`min-w-[44px] min-h-[44px] flex flex-col items-center justify-center rounded-full transition-colors cursor-pointer ${
               currentRoute === 'work'
                 ? 'bg-teal-600 text-white shadow-xs'
                 : 'text-slate-300 hover:text-white'
             }`}
             title="Work"
+            aria-label="Navigate to Work"
           >
             <Briefcase className="w-4 h-4" />
-            <span className="sr-only">Work</span>
           </button>
 
           <button
             onClick={() => handleNavClick('music')}
-            className={`flex flex-col items-center justify-center p-2 rounded-full transition-colors cursor-pointer ${
+            className={`min-w-[44px] min-h-[44px] flex flex-col items-center justify-center rounded-full transition-colors cursor-pointer ${
               currentRoute === 'music'
                 ? 'bg-teal-600 text-white shadow-xs'
                 : 'text-slate-300 hover:text-white'
             }`}
             title="Music"
+            aria-label="Navigate to Music"
           >
             <Music className="w-4 h-4" />
-            <span className="sr-only">Music</span>
           </button>
 
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="flex flex-col items-center justify-center p-2 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 transition-colors cursor-pointer"
+            className="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-amber-300 transition-colors cursor-pointer"
             title="All Sections"
+            aria-label="Open full navigation menu"
           >
-            <span className="text-xs font-bold font-mono tracking-tighter">MORE</span>
+            <span className="text-[11px] font-bold font-mono tracking-tighter">MORE</span>
           </button>
         </div>
       </div>

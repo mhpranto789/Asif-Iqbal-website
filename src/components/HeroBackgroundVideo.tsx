@@ -154,8 +154,8 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
       <div className="absolute top-1/4 left-1/4 w-[420px] h-[420px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
       <div className="absolute top-1/3 right-12 w-[340px] h-[340px] bg-amber-500/8 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
 
-      {/* Interactive Cinematic Ambient Video Control Pill */}
-      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-20 pointer-events-auto">
+      {/* Interactive Cinematic Ambient Video Control Pill (Safe spacing from mobile bottom bar) */}
+      <div className="absolute bottom-20 sm:bottom-6 right-4 sm:right-6 z-20 pointer-events-auto">
         <button
           onClick={handleTogglePlayback}
           className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/70 hover:bg-slate-900/90 backdrop-blur-md border border-white/15 hover:border-teal-400/50 text-[11px] font-mono text-slate-300 hover:text-white transition-all shadow-lg hover:shadow-teal-950/50 cursor-pointer"
