@@ -167,7 +167,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full max-w-[280px] sm:max-w-[290px] lg:max-w-[265px] xl:max-w-[280px] lg:ml-auto lg:translate-x-2 xl:translate-x-4 rounded-2xl bg-[#0B1522]/85 backdrop-blur-xl border border-teal-500/30 shadow-2xl shadow-black/70 p-4 sm:p-4.5 relative overflow-hidden"
+                className="w-full max-w-[280px] sm:max-w-[290px] lg:max-w-[265px] xl:max-w-[280px] lg:ml-auto lg:translate-x-8 xl:translate-x-12 2xl:translate-x-16 rounded-2xl bg-[#0B1522]/85 backdrop-blur-xl border border-teal-500/30 shadow-2xl shadow-black/70 p-4 sm:p-4.5 relative overflow-hidden"
               >
                 {/* Subtle Ambient Decorative Glows */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
