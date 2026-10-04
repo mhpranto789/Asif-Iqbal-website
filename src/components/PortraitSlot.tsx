@@ -86,6 +86,8 @@ export const PortraitSlot: React.FC<PortraitSlotProps> = ({
         <motion.img
           src={activeUrl}
           alt={altText}
+          loading="lazy"
+          decoding="async"
           onError={() => setImgError(true)}
           referrerPolicy="no-referrer"
           variants={{

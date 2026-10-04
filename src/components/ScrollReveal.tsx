@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, HTMLMotionProps, Variants, useInView, useScroll, useSpring } from 'motion/react';
+import { motion, HTMLMotionProps, Variants, useInView } from 'motion/react';
 
 // Enhanced ScrollSection: Wraps entire page sections with graceful Intersection Observer animations
 interface ScrollSectionProps extends HTMLMotionProps<'section'> {
@@ -163,22 +163,8 @@ export const StaggerItem: React.FC<HTMLMotionProps<'div'>> = ({
   );
 };
 
-// ScrollProgress: A sleek top scroll progress indicator powered by Framer Motion
-export const ScrollProgressBar: React.FC<{ className?: string }> = ({ className = '' }) => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  return (
-    <motion.div
-      style={{ scaleX }}
-      className={`fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-teal-500 via-teal-400 to-amber-400 origin-left z-50 pointer-events-none shadow-[0_0_12px_rgba(20,184,166,0.6)] ${className}`}
-    />
-  );
-};
+// ScrollProgressBar: Disabled per user preference to ensure 100% lag-free scrolling
+export const ScrollProgressBar: React.FC<{ className?: string }> = () => null;
 
 // Custom Hook to observe when a ref element enters the viewport
 export const useIntersectionReveal = (options?: {

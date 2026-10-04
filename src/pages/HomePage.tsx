@@ -75,198 +75,197 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
         <HeroBackgroundVideo language={language} />
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start py-6 sm:py-10">
-            {/* Left Hero Content with Staggered Entrance */}
-            <div className="lg:col-span-8 xl:col-span-9">
-              <motion.div
-                variants={heroTextContainerVariants}
-                initial="hidden"
-                animate="visible"
-                className="space-y-6 sm:space-y-8"
-              >
-                {/* Eyebrow with Pulsing Live Status Dot */}
-                <motion.div variants={heroTextItemVariants}>
-                  <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-teal-950/60 border border-teal-500/30 text-teal-300 text-xs font-semibold tracking-wider uppercase">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                    </span>
-                    <span>{t.brand.eyebrow}</span>
-                  </div>
-                </motion.div>
-
-                {/* H1 & Dual Typography */}
-                <motion.div variants={heroTextItemVariants} className="space-y-3">
-                  <h1 className="text-3xl xs:text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white text-balance leading-[1.08] drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]">
-                    {language === 'en' ? (
-                      <>
-                        <span className="font-montserrat font-bold tracking-tight inline-block text-white">
-                          Asif Iqbal
-                        </span>
-                        <span className="block text-2xl sm:text-3xl font-stylish-bengali font-medium text-teal-300 pt-1 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                          আসিফ ইকবাল
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="font-stylish-bengali font-bold tracking-wide inline-block">
-                          আসিফ ইকবাল
-                        </span>
-                        <span className="block text-2xl sm:text-3xl font-montserrat font-bold text-teal-300 pt-1 tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                          Asif Iqbal
-                        </span>
-                      </>
-                    )}
-                  </h1>
-
-                  {/* Subtitle / Positioning Tagline */}
-                  <div className="text-xl sm:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-200 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-                    {t.brand.positioning}
-                  </div>
-                </motion.div>
-
-                {/* Body Summary */}
-                <motion.p
-                  variants={heroTextItemVariants}
-                  className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl text-balance drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
-                >
-                  "{t.brand.heroSummary}"
-                </motion.p>
-
-                {/* Prestigious Brand Philosophy Line */}
-                <motion.div
-                  variants={heroTextItemVariants}
-                  className="p-4 sm:p-5 rounded-xl bg-[#080E15]/50 backdrop-blur-md border-l-2 border-teal-400 border-y border-r border-white/10 text-sm sm:text-base text-slate-100 font-editorial italic max-w-2xl shadow-xl shadow-black/40"
-                >
-                  "{t.brand.brandLine}"
-                </motion.div>
-
-                {/* Action Buttons with Interactive Springs */}
-                <motion.div variants={heroTextItemVariants} className="pt-2 flex flex-wrap items-center gap-4">
-                  <button
-                    onClick={() => onNavigate('work')}
-                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 text-xs font-bold uppercase tracking-wider transition-all duration-200 inline-flex items-center gap-2 shadow-lg shadow-teal-500/20 hover:shadow-teal-500/35 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
-                  >
-                    <span>{t.brand.ctaWork}</span>
-                    <ArrowRight className="w-4 h-4 text-slate-950" />
-                  </button>
-
-                  <button
-                    onClick={() => onNavigate('story')}
-                    className="px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer backdrop-blur-sm transform hover:-translate-y-0.5 active:translate-y-0"
-                  >
-                    <span>{t.brand.ctaStory}</span>
-                  </button>
-                </motion.div>
-              </motion.div>
-            </div>
-
-            {/* Top Right Side Vertically: Impact & Career Stats Counters (Slender & Shifted Right) */}
-            <div className="lg:col-span-4 xl:col-span-3 w-full flex justify-end">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full max-w-[280px] sm:max-w-[290px] lg:max-w-[265px] xl:max-w-[280px] lg:ml-auto lg:translate-x-0 xl:translate-x-2 2xl:translate-x-6 rounded-2xl bg-[#0B1522]/85 backdrop-blur-xl border border-teal-500/30 shadow-2xl shadow-black/70 p-4 sm:p-4.5 relative overflow-hidden"
-              >
-                {/* Subtle Ambient Decorative Glows */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
-
-                {/* Vertical Header Badge */}
-                <div className="relative z-10 flex items-center justify-between pb-2.5 mb-2.5 border-b border-teal-500/20">
-                  <div className="inline-flex items-center gap-1.5">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-teal-400" />
-                    </span>
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-teal-300 font-semibold">
-                      {language === 'en' ? 'Key Milestones' : 'মূল মাইলফলক'}
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                    {language === 'en' ? 'Track' : 'পথচলা'}
+          {/* Hero Content with Staggered Entrance */}
+          <div className="py-6 sm:py-10 max-w-4xl">
+            <motion.div
+              variants={heroTextContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-6 sm:space-y-8"
+            >
+              {/* Eyebrow with Pulsing Live Status Dot */}
+              <motion.div variants={heroTextItemVariants}>
+                <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-teal-950/60 border border-teal-500/30 text-teal-300 text-xs font-semibold tracking-wider uppercase">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
                   </span>
-                </div>
-
-                {/* Vertical Stack of Stats */}
-                <div className="relative z-10 flex flex-col divide-y divide-teal-500/15">
-                  {/* Stat 1: Corporate Turnaround */}
-                  <div className="py-2.5 first:pt-0 last:pb-0 space-y-0.5">
-                    <div className="flex items-baseline justify-between gap-1.5">
-                      <div className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-teal-300 drop-shadow-[0_2px_8px_rgba(13,148,136,0.3)]">
-                        <AnimatedCounter value={30} suffix="+" className="text-teal-300" />
-                      </div>
-                      <span className="text-[9px] font-mono uppercase tracking-wider text-teal-300/90 bg-teal-950/70 border border-teal-500/30 px-1.5 py-0.5 rounded-full">
-                        C-Suite
-                      </span>
-                    </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-200 leading-snug">
-                      {language === 'en' ? 'Years Corporate Turnaround' : 'বছর করপোরেট রূপান্তর'}
-                    </div>
-                    <p className="text-[10px] text-slate-400 font-medium leading-tight">
-                      Meghna, City Group, Shwapno
-                    </p>
-                  </div>
-
-                  {/* Stat 2: Recorded Lyric Compositions */}
-                  <div className="py-2.5 first:pt-0 last:pb-0 space-y-0.5">
-                    <div className="flex items-baseline justify-between gap-1.5">
-                      <div className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-amber-400 drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)]">
-                        <AnimatedCounter value={1000} suffix="+" className="text-amber-400" />
-                      </div>
-                      <span className="text-[9px] font-mono uppercase tracking-wider text-amber-300/90 bg-amber-950/70 border border-amber-500/30 px-1.5 py-0.5 rounded-full">
-                        Poetic Soul
-                      </span>
-                    </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-200 leading-snug">
-                      {language === 'en' ? 'Recorded Lyric Compositions' : 'রেকর্ডকৃত আধুনিক গান'}
-                    </div>
-                    <p className="text-[10px] text-slate-400 font-medium leading-tight">
-                      42+ years poetic craftsmanship
-                    </p>
-                  </div>
-
-                  {/* Stat 3: Women Artisans Empowered */}
-                  <div className="py-2.5 first:pt-0 last:pb-0 space-y-0.5">
-                    <div className="flex items-baseline justify-between gap-1.5">
-                      <div className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-emerald-400 drop-shadow-[0_2px_8px_rgba(16,185,129,0.3)]">
-                        <AnimatedCounter value={900} suffix="+" className="text-emerald-400" />
-                      </div>
-                      <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-300/90 bg-emerald-950/70 border border-emerald-500/30 px-1.5 py-0.5 rounded-full">
-                        ASIX Craft
-                      </span>
-                    </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-200 leading-snug">
-                      {language === 'en' ? 'Women Artisans Empowered' : 'নারী কারুশিল্পীর ক্ষমতায়ন'}
-                    </div>
-                    <p className="text-[10px] text-slate-400 font-medium leading-tight">
-                      ASIX craft exports to 20+ countries
-                    </p>
-                  </div>
-
-                  {/* Stat 4: Audience & Cultural Reach */}
-                  <div className="py-2.5 first:pt-0 last:pb-0 space-y-0.5">
-                    <div className="flex items-baseline justify-between gap-1.5">
-                      <div className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-cyan-300 drop-shadow-[0_2px_8px_rgba(6,182,212,0.3)]">
-                        <AnimatedCounter value={12} suffix="M+" className="text-cyan-300" />
-                      </div>
-                      <span className="text-[9px] font-mono uppercase tracking-wider text-cyan-300/90 bg-cyan-950/70 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
-                        Impact
-                      </span>
-                    </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-200 leading-snug">
-                      {language === 'en' ? 'Audience & Cultural Reach' : 'শ্রোতা ও তরুণদের স্পর্শ'}
-                    </div>
-                    <p className="text-[10px] text-slate-400 font-medium leading-tight">
-                      Songs, books & IBA classrooms
-                    </p>
-                  </div>
+                  <span>{t.brand.eyebrow}</span>
                 </div>
               </motion.div>
-            </div>
+
+              {/* H1 & Dual Typography */}
+              <motion.div variants={heroTextItemVariants} className="space-y-3">
+                <h1 className="text-3xl xs:text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white text-balance leading-[1.08] drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]">
+                  {language === 'en' ? (
+                    <>
+                      <span className="font-montserrat font-bold tracking-tight inline-block text-white">
+                        Asif Iqbal
+                      </span>
+                      <span className="block text-2xl sm:text-3xl font-stylish-bengali font-medium text-teal-300 pt-1 tracking-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                        আসিফ ইকবাল
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="font-stylish-bengali font-bold tracking-wide inline-block">
+                        আসিফ ইকবাল
+                      </span>
+                      <span className="block text-2xl sm:text-3xl font-montserrat font-bold text-teal-300 pt-1 tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                        Asif Iqbal
+                      </span>
+                    </>
+                  )}
+                </h1>
+
+                {/* Subtitle / Positioning Tagline */}
+                <div className="text-xl sm:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-200 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+                  {t.brand.positioning}
+                </div>
+              </motion.div>
+
+              {/* Body Summary */}
+              <motion.p
+                variants={heroTextItemVariants}
+                className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl text-balance drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+              >
+                "{t.brand.heroSummary}"
+              </motion.p>
+
+              {/* Prestigious Brand Philosophy Line */}
+              <motion.div
+                variants={heroTextItemVariants}
+                className="p-4 sm:p-5 rounded-xl bg-[#080E15]/50 backdrop-blur-md border-l-2 border-teal-400 border-y border-r border-white/10 text-sm sm:text-base text-slate-100 font-editorial italic max-w-2xl shadow-xl shadow-black/40"
+              >
+                "{t.brand.brandLine}"
+              </motion.div>
+
+              {/* Action Buttons with Interactive Springs */}
+              <motion.div variants={heroTextItemVariants} className="pt-2 flex flex-wrap items-center gap-4">
+                <button
+                  onClick={() => onNavigate('work')}
+                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 text-xs font-bold uppercase tracking-wider transition-all duration-200 inline-flex items-center gap-2 shadow-lg shadow-teal-500/20 hover:shadow-teal-500/35 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  <span>{t.brand.ctaWork}</span>
+                  <ArrowRight className="w-4 h-4 text-slate-950" />
+                </button>
+
+                <button
+                  onClick={() => onNavigate('story')}
+                  className="px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer backdrop-blur-sm transform hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  <span>{t.brand.ctaStory}</span>
+                </button>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
+      </section>
+
+      {/* SECTION: KEY MILESTONES & IMPACT METRICS (Placed below Hero Section, above Latest Thoughts) */}
+      <section className="relative z-20 max-w-[1280px] mx-auto px-6 -mt-8 sm:-mt-10 lg:-mt-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full rounded-2xl bg-[#0B1522]/95 backdrop-blur-xl border border-teal-500/30 shadow-2xl shadow-black/80 p-5 sm:p-6 lg:p-7 relative overflow-hidden"
+        >
+          {/* Subtle Ambient Decorative Glows */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Horizontal Header Badge */}
+          <div className="relative z-10 flex items-center justify-between pb-3.5 mb-5 border-b border-teal-500/20">
+            <div className="inline-flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400" />
+              </span>
+              <span className="font-mono text-xs uppercase tracking-wider text-teal-300 font-semibold">
+                {language === 'en' ? 'Key Milestones & Impact Metrics' : 'মূল মাইলফলক ও অর্জনের সারসংক্ষেপ'}
+              </span>
+            </div>
+            <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+              {language === 'en' ? 'Verified Career Track' : 'যাচাইকৃত পথচলা'}
+            </span>
+          </div>
+
+          {/* 4-Column Horizontal Grid */}
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 divide-y sm:divide-y-0 lg:divide-x divide-teal-500/20">
+            {/* Stat 1: Corporate Turnaround */}
+            <div className="pt-4 sm:pt-0 lg:pr-6 space-y-1.5 first:pt-0">
+              <div className="flex items-baseline justify-between gap-2">
+                <div className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-teal-300 drop-shadow-[0_2px_8px_rgba(13,148,136,0.3)]">
+                  <AnimatedCounter value={30} suffix="+" className="text-teal-300" />
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-teal-300/90 bg-teal-950/70 border border-teal-500/30 px-2 py-0.5 rounded-full">
+                  C-Suite
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-100 leading-snug">
+                {language === 'en' ? 'Years Corporate Turnaround' : 'বছর করপোরেট রূপান্তর'}
+              </div>
+              <p className="text-xs text-slate-400 font-medium leading-normal">
+                Meghna, City Group, Shwapno
+              </p>
+            </div>
+
+            {/* Stat 2: Recorded Lyric Compositions */}
+            <div className="pt-4 sm:pt-0 lg:px-6 space-y-1.5">
+              <div className="flex items-baseline justify-between gap-2">
+                <div className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-amber-400 drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)]">
+                  <AnimatedCounter value={1000} suffix="+" className="text-amber-400" />
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300/90 bg-amber-950/70 border border-amber-500/30 px-2 py-0.5 rounded-full">
+                  Poetic Soul
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-100 leading-snug">
+                {language === 'en' ? 'Recorded Lyric Compositions' : 'রেকর্ডকৃত আধুনিক গান'}
+              </div>
+              <p className="text-xs text-slate-400 font-medium leading-normal">
+                42+ years poetic craftsmanship
+              </p>
+            </div>
+
+            {/* Stat 3: Women Artisans Empowered */}
+            <div className="pt-4 sm:pt-0 lg:px-6 space-y-1.5">
+              <div className="flex items-baseline justify-between gap-2">
+                <div className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-emerald-400 drop-shadow-[0_2px_8px_rgba(16,185,129,0.3)]">
+                  <AnimatedCounter value={900} suffix="+" className="text-emerald-400" />
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-300/90 bg-emerald-950/70 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                  ASIX Craft
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-100 leading-snug">
+                {language === 'en' ? 'Women Artisans Empowered' : 'নারী কারুশিল্পীর ক্ষমতায়ন'}
+              </div>
+              <p className="text-xs text-slate-400 font-medium leading-normal">
+                ASIX craft exports to 20+ countries
+              </p>
+            </div>
+
+            {/* Stat 4: Audience & Cultural Reach */}
+            <div className="pt-4 sm:pt-0 lg:pl-6 space-y-1.5">
+              <div className="flex items-baseline justify-between gap-2">
+                <div className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-cyan-300 drop-shadow-[0_2px_8px_rgba(6,182,212,0.3)]">
+                  <AnimatedCounter value={12} suffix="M+" className="text-cyan-300" />
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-300/90 bg-cyan-950/70 border border-cyan-500/30 px-2 py-0.5 rounded-full">
+                  Impact
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-100 leading-snug">
+                {language === 'en' ? 'Audience & Cultural Reach' : 'শ্রোতা ও তরুণদের স্পর্শ'}
+              </div>
+              <p className="text-xs text-slate-400 font-medium leading-normal">
+                Songs, books & IBA classrooms
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* SECTION B: LATEST THOUGHTS TICKER (Enhances Polymath Branding) */}

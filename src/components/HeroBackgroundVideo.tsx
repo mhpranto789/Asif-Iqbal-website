@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Language } from '../types';
 import { assetConfig } from '../data/assetConfig';
-import { Play, Pause, Film } from 'lucide-react';
 
 interface HeroBackgroundVideoProps {
   language: Language;
@@ -19,7 +18,6 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   // Sync autoplay, continuous loop enforcement, & reduced motion preference
@@ -35,7 +33,6 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
 
     if (prefersReducedMotion && videoRef.current) {
       videoRef.current.pause();
-      setIsPlaying(false);
       return;
     }
 
@@ -53,27 +50,11 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
         playPromise
           .then(() => {
             setIsLoaded(true);
-            setIsPlaying(true);
           })
-          .catch(() => {
-            setIsPlaying(false);
-          });
+          .catch(() => {});
       }
     }
   }, []);
-
-  const handleTogglePlayback = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      videoRef.current
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {});
-    }
-  };
 
   const handleEnded = () => {
     if (videoRef.current) {
@@ -120,9 +101,8 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
           onCanPlay={() => setIsLoaded(true)}
           onPlay={() => {
             setIsLoaded(true);
-            setIsPlaying(true);
           }}
-          onPause={() => setIsPlaying(false)}
+          onPause={() => {}}
           onEnded={handleEnded}
           onTimeUpdate={handleTimeUpdate}
           onError={() => setHasError(true)}
@@ -132,6 +112,7 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
           aria-hidden="true"
         >
           <source src={videoUrl} type="video/mp4" />
+          <source src="/videos/hero-bg-pingpong.mp4" type="video/mp4" />
           <source src="/videos/asif-hero.mp4" type="video/mp4" />
           {fallbackUrl && <source src={fallbackUrl} type="video/mp4" />}
         </video>
@@ -153,36 +134,6 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
       {/* Subtle Polymath Brand Accents (Teal & Amber ambient light bleeding softly) */}
       <div className="absolute top-1/4 left-1/4 w-[420px] h-[420px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
       <div className="absolute top-1/3 right-12 w-[340px] h-[340px] bg-amber-500/8 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
-
-      {/* Interactive Cinematic Ambient Video Control Pill (Safe spacing from mobile bottom bar) */}
-      <div className="absolute bottom-20 sm:bottom-6 right-4 sm:right-6 z-20 pointer-events-auto">
-        <button
-          onClick={handleTogglePlayback}
-          className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/70 hover:bg-slate-900/90 backdrop-blur-md border border-white/15 hover:border-teal-400/50 text-[11px] font-mono text-slate-300 hover:text-white transition-all shadow-lg hover:shadow-teal-950/50 cursor-pointer"
-          title={isPlaying ? 'Pause background video' : 'Play background video'}
-          aria-label={isPlaying ? 'Pause cinematic background video' : 'Play cinematic background video'}
-        >
-          {isPlaying ? (
-            <span className="flex items-center gap-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400"></span>
-              </span>
-              <Pause className="w-3 h-3 text-teal-300 group-hover:scale-110 transition-transform" />
-            </span>
-          ) : (
-            <span className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-amber-400"></span>
-              <Play className="w-3 h-3 text-amber-300 group-hover:scale-110 transition-transform" />
-            </span>
-          )}
-          <span className="hidden sm:inline">
-            {language === 'en'
-              ? isPlaying ? 'Cinematic Motion' : 'Paused'
-              : isPlaying ? 'চলমান আবহ' : 'স্থির'}
-          </span>
-        </button>
-      </div>
     </div>
   );
 };

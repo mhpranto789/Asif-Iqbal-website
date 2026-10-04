@@ -160,6 +160,7 @@ export const MusicPage: React.FC<MusicPageProps> = ({ onNavigate, language }) =>
                             <iframe
                               src={`https://www.youtube-nocookie.com/embed/${song.youtubeId}?autoplay=1&rel=0`}
                               title={song.titleEn}
+                              loading="lazy"
                               className="w-full h-full border-0"
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen

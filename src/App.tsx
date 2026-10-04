@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { RoutePath, Language, EnquiryCategory } from './types';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
-import { ScrollProgressBar } from './components/ScrollReveal';
 import { PageLoader } from './components/PageLoader';
 import { HomePage } from './pages/HomePage';
 
@@ -156,9 +155,6 @@ export default function App() {
     } text-[#101B25] transition-colors duration-300 ${
       language === 'bn' ? 'font-bengali-body' : 'font-body'
     }`}>
-      {/* Dynamic Scroll Progress Bar */}
-      <ScrollProgressBar />
-
       {/* Top Bar Navigation */}
       <Navigation
         currentRoute={isNotFound ? 'home' : currentRoute}
