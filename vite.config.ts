@@ -19,6 +19,10 @@ export default defineConfig(() => {
       cssMinify: true,
       sourcemap: false,
       chunkSizeWarningLimit: 1200,
+      reportCompressedSize: false,
+      modulePreload: {
+        polyfill: false,
+      },
       rollupOptions: {
         output: {
           manualChunks(id) {

@@ -216,20 +216,27 @@ html[lang="bn"] h4 {
   background: linear-gradient(90deg, transparent 0%, rgba(20, 184, 166, 0.2) 20%, #14B8A6 50%, rgba(20, 184, 166, 0.2) 80%, transparent 100%);
 }
 
-/* Seamless Ticker Marquee Animation */
+/* Seamless Ticker Marquee Animation - GPU Accelerated */
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0%, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .animate-marquee {
   display: flex;
   width: max-content;
   animation: marquee 50s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-paused {
   animation-play-state: paused !important;
+}
+
+/* Content visibility optimization: Skips offscreen layout/paint until in proximity */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 750px;
 }
 
 /* Custom Sleek Scrollbar */

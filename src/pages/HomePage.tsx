@@ -299,7 +299,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
       </ScrollSection>
 
       {/* SECTION E: GAANCHILL SOUND LOUNGE (Scroll Fade and Slide In) */}
-      <ScrollSection className="max-w-[1280px] mx-auto px-6">
+      <ScrollSection className="max-w-[1280px] mx-auto px-6 content-auto">
         <GaanChillSoundLounge
           language={language}
           onExploreMore={() => onNavigate('music')}
@@ -307,7 +307,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
       </ScrollSection>
 
       {/* SECTION F: FOUR VENTURES (Staggered Bento Grid on Scroll) */}
-      <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-10">
+      <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-10 content-auto">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -405,7 +405,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
       </ScrollSection>
 
       {/* SECTION G: BIOGRAPHICAL ESSAY SPOTLIGHT */}
-      <ScrollSection className="max-w-[1280px] mx-auto px-6">
+      <ScrollSection className="max-w-[1280px] mx-auto px-6 content-auto">
         <div className="rounded-3xl bg-gradient-to-br from-[#0B131B] via-[#101D2A] to-[#0A121A] text-white p-8 sm:p-12 lg:p-16 relative overflow-hidden border border-teal-500/20 shadow-2xl">
           <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -465,7 +465,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
       </ScrollSection>
 
       {/* SECTION H: BOOKS & INTELLECTUAL FRAMEWORKS (Staggered Grid) */}
-      <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-8">
+      <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-8 content-auto">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -541,7 +541,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
       </ScrollSection>
 
       {/* SECTION I: CLOSING INVITATION WITH INTERACTIVE CARDS */}
-      <ScrollSection className="max-w-[1280px] mx-auto px-6">
+      <ScrollSection className="max-w-[1280px] mx-auto px-6 content-auto">
         <div className="rounded-3xl bg-gradient-to-br from-[#080E15] via-[#0E1722] to-[#0A121A] text-white p-8 sm:p-12 lg:p-16 space-y-8 border border-teal-500/20 shadow-2xl relative overflow-hidden">
           <motion.div
             initial="hidden"

@@ -202,10 +202,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                   আসিফ ইকবাল
                 </span>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] text-slate-500 font-mono tracking-wider pt-0.5 leading-tight">
-                <span className="w-1 h-1 rounded-full bg-teal-500 animate-pulse" />
-                <span>{language === 'en' ? 'Polymath Archive' : 'চিন্তাবিদ ও রূপকার'}</span>
-              </span>
             </div>
           </button>
 

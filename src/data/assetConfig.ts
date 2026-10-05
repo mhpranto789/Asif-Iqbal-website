@@ -8,10 +8,10 @@ export const assetConfig = {
   // Captured from the official keynote and leadership discourse series:
   heroPortraitUrl: "/images/asif-hero-poster.jpg",
   secondaryPortraitUrl: "/images/asif-hero-poster.jpg",
-  heroVideoUrl: "/videos/hero-bg-pingpong.mp4",
+  heroVideoUrl: "/videos/hero-bg.mp4",
   heroVideoPosterUrl: "/videos/hero-bg-poster.jpg",
   heroVideoFlowSourceUrl: "https://flow.google.com/shared/video/d50b3a4f-45a5-450a-a878-bf2508a68821",
-  heroVideoFallbackCdnUrl: "https://flow-content.google/video/93a1e182-e92a-4dc8-9680-04fdbb8e97f1?Expires=1790871587&KeyName=labs-flow-prod-cdn-key&Signature=MizXf04MUMWBQ-sux-PpSkKl9pE",
+  heroVideoFallbackCdnUrl: "",
 
   // Production Domain for Canonical URLs & Social Sharing
   productionDomain: "https://asifiqbal.com",

@@ -16,11 +16,12 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
   posterUrl = assetConfig.heroVideoPosterUrl,
   fallbackUrl = assetConfig.heroVideoFallbackCdnUrl,
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  // Sync autoplay, continuous loop enforcement, & reduced motion preference
+  // Sync autoplay, pause when out of view, & handle reduced motion preference
   useEffect(() => {
     let prefersReducedMotion = false;
     try {
@@ -36,24 +37,42 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
       return;
     }
 
-    if (videoRef.current) {
-      // Check if video is already ready
-      if (videoRef.current.readyState >= 2) {
-        setIsLoaded(true);
-      }
+    const video = videoRef.current;
+    if (!video) return;
 
-      videoRef.current.loop = true;
-      videoRef.current.muted = true;
+    video.loop = true;
+    video.muted = true;
 
-      const playPromise = videoRef.current.play();
+    // Viewport IntersectionObserver: Pause video when scrolled out of view to save battery, CPU & GPU
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined' && containerRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!videoRef.current) return;
+            if (entry.isIntersecting) {
+              const playPromise = videoRef.current.play();
+              if (playPromise !== undefined) {
+                playPromise.then(() => setIsLoaded(true)).catch(() => {});
+              }
+            } else {
+              videoRef.current.pause();
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(containerRef.current);
+    } else {
+      const playPromise = video.play();
       if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsLoaded(true);
-          })
-          .catch(() => {});
+        playPromise.then(() => setIsLoaded(true)).catch(() => {});
       }
     }
+
+    return () => {
+      if (observer) observer.disconnect();
+    };
   }, []);
 
   const handleEnded = () => {
@@ -63,23 +82,14 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
     }
   };
 
-  const handleTimeUpdate = () => {
-    // Seamless loop restart slightly before end to prevent any freeze/hiccup
-    if (videoRef.current && videoRef.current.duration > 0) {
-      if (videoRef.current.currentTime >= videoRef.current.duration - 0.15) {
-        videoRef.current.currentTime = 0;
-        videoRef.current.play().catch(() => {});
-      }
-    }
-  };
-
   return (
-    <div className="absolute inset-0 overflow-hidden select-none">
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden select-none">
       {/* 1. Underlying Base Poster / Fallback */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-opacity duration-700 pointer-events-none"
+        className="absolute inset-0 bg-cover transition-opacity duration-700 pointer-events-none"
         style={{
           backgroundImage: `url(${posterUrl})`,
+          backgroundPosition: 'center 8%',
           opacity: isLoaded ? 0.2 : 0.85,
         }}
       />
@@ -92,29 +102,23 @@ export const HeroBackgroundVideo: React.FC<HeroBackgroundVideoProps> = ({
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster={posterUrl}
           onLoadedData={() => {
             setIsLoaded(true);
             if (videoRef.current) videoRef.current.loop = true;
           }}
           onCanPlay={() => setIsLoaded(true)}
-          onPlay={() => {
-            setIsLoaded(true);
-          }}
-          onPause={() => {}}
+          onPlay={() => setIsLoaded(true)}
           onEnded={handleEnded}
-          onTimeUpdate={handleTimeUpdate}
           onError={() => setHasError(true)}
-          className={`absolute inset-0 w-full h-full object-cover object-[center_35%] transition-opacity duration-1000 ease-out filter brightness-[0.94] contrast-[1.08] saturate-[1.12] scale-[1.01] pointer-events-none ${
+          className={`absolute inset-0 w-full h-full object-cover object-[center_8%] sm:object-[center_5%] transition-opacity duration-1000 ease-out filter brightness-[0.94] contrast-[1.08] saturate-[1.12] scale-[1.02] pointer-events-none transform-gpu ${
             isLoaded ? 'opacity-90' : 'opacity-0'
           }`}
           aria-hidden="true"
         >
           <source src={videoUrl} type="video/mp4" />
-          <source src="/videos/hero-bg-pingpong.mp4" type="video/mp4" />
-          <source src="/videos/asif-hero.mp4" type="video/mp4" />
-          {fallbackUrl && <source src={fallbackUrl} type="video/mp4" />}
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
       )}
 
