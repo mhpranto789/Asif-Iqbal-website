@@ -22,7 +22,15 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
   const [customCovers, setCustomCovers] = useState<Record<string, string>>(() => {
     try {
       const saved = localStorage.getItem('asif_custom_book_covers');
-      return saved ? JSON.parse(saved) : {};
+      if (!saved) return {};
+      const parsed = JSON.parse(saved);
+      const cleaned: Record<string, string> = {};
+      for (const [k, v] of Object.entries(parsed)) {
+        if (typeof v === 'string' && (v.startsWith('http') || (v.startsWith('data:image') && v.length > 1000))) {
+          cleaned[k] = v;
+        }
+      }
+      return cleaned;
     } catch {
       return {};
     }

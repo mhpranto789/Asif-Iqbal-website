@@ -1,4 +1,5 @@
 import { VentureItem, CareerMilestone, SongItem, BookItem, FrameworkStep, SpeakingTheme, BlogArticle } from '../types';
+import { BOOK_COVERS } from './bookCoversData';
 
 export const fourVentures: VentureItem[] = [
   {
@@ -244,7 +245,7 @@ export const publishedBooks: BookItem[] = [
       'বাইরের কোলাহল ও দ্বিধা এড়িয়ে নিজের লক্ষ্যে অবিচল থাকা'
     ],
     orderUrl: 'https://www.rokomari.com/book/457335/jodi-lokkho-thake-otut',
-    coverImage: '/images/books/jodi-lokkho-thake-otut.jpg'
+    coverImage: BOOK_COVERS['jodi-lokkho-thake-otut'] || '/images/books/jodi-lokkho-thake-otut.jpg'
   },
   {
     id: 'bhabia-korio-kaaj',
@@ -270,7 +271,7 @@ export const publishedBooks: BookItem[] = [
       'ব্যক্তিগত মূল্যবোধের সাথে প্রাতিষ্ঠানিক সিদ্ধান্তের সামঞ্জস্য রক্ষা'
     ],
     orderUrl: 'https://www.rokomari.com/book/545102/bhabiya-koriyo-kaj',
-    coverImage: '/images/books/bhabia-korio-kaaj.jpg'
+    coverImage: BOOK_COVERS['bhabia-korio-kaaj'] || '/images/books/bhabia-korio-kaaj.jpg'
   },
   {
     id: 'brikkho-tomar-naam-ki',
