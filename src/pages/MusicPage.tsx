@@ -158,11 +158,12 @@ export const MusicPage: React.FC<MusicPageProps> = ({ onNavigate, language }) =>
                         <div className="space-y-3 pt-1">
                           <div className="aspect-video w-full rounded-xl overflow-hidden border border-white/10 bg-black shadow-lg">
                             <iframe
-                              src={`https://www.youtube-nocookie.com/embed/${song.youtubeId}?autoplay=1&rel=0`}
+                              src={song.embedUrl ? `${song.embedUrl}&autoplay=1` : `https://www.youtube-nocookie.com/embed/${song.youtubeId}?autoplay=1&rel=0`}
                               title={song.titleEn}
                               loading="lazy"
                               className="w-full h-full border-0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              referrerPolicy="strict-origin-when-cross-origin"
                               allowFullScreen
                             />
                           </div>

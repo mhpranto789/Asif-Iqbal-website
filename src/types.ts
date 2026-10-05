@@ -66,6 +66,7 @@ export interface SongItem {
   contextEn: string;
   contextBn: string;
   youtubeId?: string;
+  embedUrl?: string;
   externalLink?: string;
   spotifyUrl?: string;
 }

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
-import { fourVentures, publishedBooks } from '../data/siteContent';
+import { fourVentures, publishedBooks, musicItems } from '../data/siteContent';
 import { assetConfig } from '../data/assetConfig';
-import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight, Upload } from 'lucide-react';
-import { motion, Variants } from 'motion/react';
-import { GaanChillSoundLounge } from '../components/GaanChillSoundLounge';
+import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight, Upload, Play, Music, Disc, X } from 'lucide-react';
+import { motion, Variants, AnimatePresence } from 'motion/react';
 import { PolymathMatrix } from '../components/PolymathMatrix';
 import { ThoughtTicker } from '../components/ThoughtTicker';
 import { AnimatedCounter } from '../components/AnimatedCounter';
@@ -67,6 +66,8 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
   const t = translations[language];
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
+  const [playingInlineId, setPlayingInlineId] = useState<string | null>(null);
 
   const [customCovers, setCustomCovers] = useState<Record<string, string>>(() => {
     try {
@@ -360,15 +361,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
         </ScrollReveal>
       </ScrollSection>
 
-      {/* SECTION E: GAANCHILL SOUND LOUNGE (Scroll Fade and Slide In) */}
-      <ScrollSection className="max-w-[1280px] mx-auto px-6 content-auto">
-        <GaanChillSoundLounge
-          language={language}
-          onExploreMore={() => onNavigate('music')}
-        />
-      </ScrollSection>
-
-      {/* SECTION F: FOUR VENTURES (Staggered Bento Grid on Scroll) */}
+      {/* SECTION E: FOUR VENTURES (Staggered Bento Grid on Scroll) */}
       <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-10 content-auto">
         <motion.div
           initial="hidden"
@@ -466,62 +459,200 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
         </StaggerContainer>
       </ScrollSection>
 
-      {/* SECTION G: BIOGRAPHICAL ESSAY SPOTLIGHT */}
+      {/* SECTION G: ASIF IQBAL ER SERA GAANSOMUH (MASTERPIECE SONGS) */}
       <ScrollSection className="max-w-[1280px] mx-auto px-6 content-auto">
-        <div className="rounded-3xl bg-gradient-to-br from-[#0B131B] via-[#101D2A] to-[#0A121A] text-white p-8 sm:p-12 lg:p-16 relative overflow-hidden border border-teal-500/20 shadow-2xl">
+        <div className="rounded-3xl bg-gradient-to-br from-[#070D14] via-[#0E1A26] to-[#081018] text-white p-6 sm:p-10 lg:p-14 relative overflow-hidden border border-teal-500/25 shadow-2xl space-y-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={sectionHeaderContainerVariants}
-              className="lg:col-span-8 space-y-6"
-            >
-              <motion.span variants={sectionHeaderItemVariants} className="text-xs font-mono uppercase tracking-widest text-teal-400 font-semibold flex items-center gap-2">
-                <span>{language === 'en' ? 'Biographical Chapter' : 'জীবনের গল্প'}</span>
-                <span>·</span>
-                <span className="text-slate-400">{language === 'en' ? 'From Chittagong to Global Stage' : 'চট্টগ্রাম থেকে বিশ্বমঞ্চে'}</span>
-              </motion.span>
+          {/* Section Header */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={sectionHeaderContainerVariants}
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-white/10 pb-6 relative z-10"
+          >
+            <div className="space-y-3">
+              <motion.div variants={sectionHeaderItemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-semibold tracking-wider uppercase font-mono">
+                <Music className="w-3.5 h-3.5 text-teal-400" />
+                <span>{language === 'en' ? 'Lyrical Heritage · 42+ Years' : 'চার দশকের কালজয়ী গীতিকবিতা'}</span>
+              </motion.div>
 
               <motion.h2 variants={sectionHeaderItemVariants} className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight text-balance">
-                {t.home.storyPreviewHeading}
+                {language === 'en' ? 'Asif Iqbal’s Masterpiece Songs' : 'Asif Iqbal এর সেরা গানসমূহ'}
               </motion.h2>
 
-              <motion.p variants={sectionHeaderItemVariants} className="text-base sm:text-lg text-slate-300 leading-relaxed font-body">
-                {t.home.storyPreviewExcerpt}
-              </motion.p>
-
-              <motion.div variants={sectionHeaderItemVariants} className="pt-2">
-                <button
-                  onClick={() => onNavigate('story')}
-                  className="px-6 py-3.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-2 cursor-pointer shadow-lg shadow-teal-500/20"
-                >
-                  <span>{t.home.storyPreviewLink}</span>
-                  <ArrowRight className="w-4 h-4 text-slate-950" />
-                </button>
-              </motion.div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.65, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-4 p-8 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md space-y-4"
-            >
-              <div className="font-editorial italic text-xl text-amber-300 leading-relaxed">
-                "{language === 'en'
-                  ? 'True effort is the sovereign currency under our control. The tree is known by its fruits.'
-                  : 'চেষ্টাই মানুষের একমাত্র সার্বভৌম শক্তি। ফলেই বৃক্ষের আসল পরিচয়।'}"
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed border-t border-white/10 pt-3">
+              <motion.p variants={sectionHeaderItemVariants} className="text-sm sm:text-base text-slate-300 max-w-2xl font-body leading-relaxed">
                 {language === 'en'
-                  ? 'From Red Crescent volunteering in his youth to the classrooms of Dhaka University, learning through action remains his compass.'
-                  : 'কৈশোরের সমাজসেবা থেকে বিশ্ববিদ্যালয়ের শ্রেণিকক্ষ—কাজের মধ্য দিয়ে শেখাই তাঁর জীবনের ব্রত।'}
-              </p>
+                  ? 'From historical rock poetry with James and Ayub Bachchu to generational anthems and blockbuster romantic melodies—written by lyricist Asif Iqbal.'
+                  : 'ঐতিহাসিক ব্যান্ড ক্লাসিক থেকে শুরু করে চলচ্চিত্র ও কোটি মানুষের কণ্ঠে ফেরা রোমান্টিক মেলোডি—গীতিকবি আসিফ ইকবালের রচিত শীর্ষ গানসমূহ।'}
+              </motion.p>
+            </div>
+
+            <motion.div variants={sectionHeaderItemVariants} className="shrink-0">
+              <button
+                onClick={() => onNavigate('music')}
+                className="px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-2 shadow-lg shadow-teal-500/20 cursor-pointer"
+              >
+                <span>{language === 'en' ? 'Full Music Archive' : 'সকল গান ও অডিও শুনুন'}</span>
+                <ArrowRight className="w-4 h-4 text-slate-950" />
+              </button>
             </motion.div>
+          </motion.div>
+
+          {/* 6 Songs Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+            {musicItems.map((song, idx) => (
+              <motion.div
+                key={song.id}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="rounded-2xl bg-white/[0.04] border border-white/10 hover:border-teal-500/40 backdrop-blur-md overflow-hidden flex flex-col justify-between transition-all group shadow-lg"
+              >
+                <div>
+                  {/* YouTube Video Preview / Player Container */}
+                  <div className="relative aspect-video w-full bg-slate-950 overflow-hidden border-b border-white/10 group/thumb">
+                    {playingInlineId === song.id && song.youtubeId ? (
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${song.youtubeId}?autoplay=1&rel=0`}
+                        title={language === 'en' ? song.titleEn : song.titleBn}
+                        className="w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <div
+                        onClick={() => setPlayingInlineId(song.id)}
+                        className="relative w-full h-full cursor-pointer select-none overflow-hidden"
+                      >
+                        {song.youtubeId ? (
+                          <img
+                            src={`https://img.youtube.com/vi/${song.youtubeId}/hqdefault.jpg`}
+                            alt={language === 'en' ? song.titleEn : song.titleBn}
+                            className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500"
+                            loading="eager"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-teal-950/40">
+                            <Music className="w-10 h-10 text-teal-400/40" />
+                          </div>
+                        )}
+
+                        {/* Scrim Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20 group-hover/thumb:bg-black/30 transition-colors" />
+
+                        {/* Top Badges */}
+                        <div className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-xs text-[11px] font-mono text-teal-300 font-semibold border border-white/10">
+                          #{String(idx + 1).padStart(2, '0')}
+                        </div>
+
+                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-xs text-[11px] font-mono text-slate-300 font-medium border border-white/10">
+                          {song.yearText}
+                        </div>
+
+                        {/* Iconic Red Play Button in Center */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-14 h-10 rounded-xl bg-red-600 group-hover/thumb:bg-red-500 text-white flex items-center justify-center shadow-2xl group-hover/thumb:scale-110 transition-transform duration-200">
+                            <Play className="w-5 h-5 fill-current ml-0.5" />
+                          </div>
+                        </div>
+
+                        {/* Bottom Live Preview Badge */}
+                        <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] text-white/90">
+                          <span className="font-semibold tracking-wide flex items-center gap-1.5 drop-shadow">
+                            <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
+                            {language === 'en' ? 'Click to Play' : 'প্লে করতে ক্লিক করুন'}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-300 bg-black/60 px-1.5 py-0.5 rounded">
+                            HD Video
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Song Details */}
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-mono text-teal-300 font-semibold px-2 py-0.5 rounded bg-teal-500/10 border border-teal-500/20">
+                        #{String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-slate-400 font-mono text-[11px]">
+                        {song.yearText}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display text-lg font-bold text-white group-hover:text-teal-300 transition-colors line-clamp-1">
+                      {language === 'en' ? song.titleEn : song.titleBn}
+                    </h3>
+
+                    <div className="space-y-1 text-xs">
+                      <p className="text-slate-300 font-medium line-clamp-1">
+                        {song.artistCredit}
+                      </p>
+                      <p className="text-[11px] font-mono text-teal-400 font-semibold">
+                        {language === 'en' ? 'Lyricist: Asif Iqbal' : 'কথা ও গীতিকবিতা: আসিফ ইকবাল'}
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed font-body">
+                      {language === 'en' ? song.contextEn : song.contextBn}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Card Actions */}
+                <div className="p-5 pt-0 border-t border-white/5 flex flex-wrap items-center justify-between gap-2 text-xs">
+                  {song.youtubeId && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideoId(song.youtubeId || null)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-500/10 hover:bg-teal-500/20 text-teal-300 font-semibold cursor-pointer transition-colors border border-teal-500/30"
+                      title={language === 'en' ? 'Open in responsive popup player' : 'বড় পর্দায় পপআপ প্লেয়ারে দেখুন'}
+                    >
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>{language === 'en' ? 'Popup View' : 'পপআপ প্লেয়ার'}</span>
+                    </button>
+                  )}
+
+                  {song.externalLink && (
+                    <a
+                      href={song.externalLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition-all ml-auto shadow-md shadow-red-600/20"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                      <span>YouTube</span>
+                      <ArrowUpRight className="w-3 h-3" />
+                    </a>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom Biographical & Artistic Harmony Note */}
+          <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-300">
+            <div className="font-editorial italic text-base text-amber-200">
+              "{language === 'en'
+                ? 'Songwriting is not an escape from business; it is the emotional compass that keeps leadership deeply human.'
+                : 'গান আমার কর্মজীবনের ছায়া নয়, বরং হৃদয়ের স্পন্দন যা নেতৃত্বকে গভীর সংবেদনশীল রাখে।'}"
+              <span className="not-italic text-xs text-slate-400 font-sans ml-2">— আসিফ ইকবাল</span>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => onNavigate('story')}
+                className="text-teal-400 hover:text-teal-300 font-semibold inline-flex items-center gap-1 cursor-pointer transition-colors"
+              >
+                <span>{language === 'en' ? 'Biographical Chapter' : 'জীবনের গল্প'}</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </ScrollSection>
@@ -736,6 +867,43 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
           </StaggerContainer>
         </div>
       </ScrollSection>
+
+      {/* YouTube Video Player Modal */}
+      <AnimatePresence>
+        {activeVideoId && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md"
+            onClick={() => setActiveVideoId(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="relative w-full max-w-4xl aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveVideoId(null)}
+                className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/70 hover:bg-black text-white hover:text-teal-400 transition-colors cursor-pointer border border-white/20"
+                title={language === 'en' ? 'Close player' : 'বন্ধ করুন'}
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${activeVideoId}?autoplay=1&rel=0`}
+                title="Asif Iqbal Song Player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
