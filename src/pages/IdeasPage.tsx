@@ -3,9 +3,10 @@ import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
 import { publishedBooks, strategicPillars, aimFrameworks } from '../data/siteContent';
 import { InteractiveFramework } from '../components/InteractiveFramework';
-import { Lightbulb, ArrowRight, ArrowUpRight, ShoppingBag, Upload, Camera } from 'lucide-react';
-import { motion } from 'motion/react';
+import { Lightbulb, ArrowRight, ArrowUpRight, ShoppingBag, Upload, Camera, Link2, RotateCcw, Check, X, Sparkles, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ScrollSection, ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
+import { resolveCoverUrl } from '../utils/imageUtils';
 
 interface IdeasPageProps {
   onNavigate: (route: RoutePath, preselectedCategory?: EnquiryCategory) => void;
@@ -27,28 +28,38 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
     }
   });
 
+  // Google Drive & Upload modal state
+  const [selectedBookForDrive, setSelectedBookForDrive] = useState<string | null>(null);
+  const [driveUrlInput, setDriveUrlInput] = useState('');
+  const [driveLinkError, setDriveLinkError] = useState('');
+
+  const saveCustomCover = async (bookId: string, urlOrBase64: string) => {
+    const finalUrl = resolveCoverUrl(urlOrBase64);
+    setCustomCovers((prev) => {
+      const updated = { ...prev, [bookId]: finalUrl };
+      try {
+        localStorage.setItem('asif_custom_book_covers', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+
+    try {
+      await fetch('/api/upload-book-cover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookId, base64Data: finalUrl }),
+      });
+    } catch (err) {
+      console.warn('Cover upload server sync:', err);
+    }
+  };
+
   const handleFileUpload = (bookId: string, file: File) => {
     const reader = new FileReader();
     reader.onload = async (e) => {
       const base64Data = e.target?.result as string;
       if (base64Data) {
-        setCustomCovers((prev) => {
-          const updated = { ...prev, [bookId]: base64Data };
-          try {
-            localStorage.setItem('asif_custom_book_covers', JSON.stringify(updated));
-          } catch {}
-          return updated;
-        });
-
-        try {
-          await fetch('/api/upload-book-cover', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bookId, base64Data }),
-          });
-        } catch (err) {
-          console.warn('Cover upload server sync:', err);
-        }
+        saveCustomCover(bookId, base64Data);
       }
     };
     reader.readAsDataURL(file);
@@ -58,17 +69,40 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
     Array.from(files).forEach((file) => {
       const name = file.name.toLowerCase();
       let targetId = '';
-      if (name.includes('1000033103') || name.includes('lokkho') || name.includes('otut')) {
+      if (name.includes('1000033103') || name.includes('1000025304') || name.includes('lokkho') || name.includes('otut')) {
         targetId = 'jodi-lokkho-thake-otut';
       } else if (name.includes('wa0000') || name.includes('bhabia') || name.includes('kaj')) {
         targetId = 'bhabia-korio-kaaj';
       } else {
-        // First match default
         targetId = 'jodi-lokkho-thake-otut';
       }
       if (targetId) {
         handleFileUpload(targetId, file);
       }
+    });
+  };
+
+  const handleApplyDriveLink = () => {
+    if (!selectedBookForDrive) return;
+    if (!driveUrlInput.trim()) {
+      setDriveLinkError(language === 'en' ? 'Please paste a valid Google Drive link' : 'একটি গুগল ড্রাইভ লিঙ্ক প্রদান করুন');
+      return;
+    }
+    const resolved = resolveCoverUrl(driveUrlInput);
+    saveCustomCover(selectedBookForDrive, resolved);
+    setSelectedBookForDrive(null);
+    setDriveUrlInput('');
+    setDriveLinkError('');
+  };
+
+  const handleResetCover = (bookId: string) => {
+    setCustomCovers((prev) => {
+      const updated = { ...prev };
+      delete updated[bookId];
+      try {
+        localStorage.setItem('asif_custom_book_covers', JSON.stringify(updated));
+      } catch {}
+      return updated;
     });
   };
 
@@ -109,19 +143,33 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
             </p>
           </div>
 
-          <label className="shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-teal-700 text-white text-xs font-semibold uppercase tracking-wider cursor-pointer shadow-sm hover:shadow transition-all group">
-            <Upload className="w-3.5 h-3.5 text-teal-400 group-hover:-translate-y-0.5 transition-transform" />
-            <span>{language === 'en' ? 'Upload Exact Book Photos' : 'আসল বইয়ের ছবি আপলোড'}</span>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                if (e.target.files) handleMultipleFiles(e.target.files);
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              onClick={() => {
+                setSelectedBookForDrive('jodi-lokkho-thake-otut');
+                setDriveUrlInput('');
+                setDriveLinkError('');
               }}
-            />
-          </label>
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold uppercase tracking-wider cursor-pointer shadow-sm hover:shadow transition-all group"
+            >
+              <Link2 className="w-3.5 h-3.5 group-hover:rotate-45 transition-transform" />
+              <span>{language === 'en' ? 'Add Google Drive Link' : 'গুগল ড্রাইভ লিঙ্ক যুক্ত করুন'}</span>
+            </button>
+
+            <label className="shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-teal-700 text-white text-xs font-semibold uppercase tracking-wider cursor-pointer shadow-sm hover:shadow transition-all group">
+              <Upload className="w-3.5 h-3.5 text-teal-400 group-hover:-translate-y-0.5 transition-transform" />
+              <span>{language === 'en' ? 'Upload Book Photos' : 'আসল বইয়ের ছবি আপলোড'}</span>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files) handleMultipleFiles(e.target.files);
+                }}
+              />
+            </label>
+          </div>
         </ScrollReveal>
 
         <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -134,39 +182,73 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
               >
                 <div className="flex flex-col sm:flex-row gap-6 items-start">
                   {book.coverImage && (
-                    <div
-                      className="relative group/cover shrink-0 mx-auto sm:mx-0 w-40 sm:w-44 aspect-[2/3] rounded-lg shadow-[0_12px_28px_rgba(0,0,0,0.18)] overflow-hidden border border-slate-200/80 group-hover:shadow-[0_16px_36px_rgba(0,0,0,0.25)] group-hover:scale-[1.02] transition-all duration-300 transform-gpu bg-slate-100"
-                      onDragOver={(e) => e.preventDefault()}
-                      onDrop={(e) => {
-                        e.preventDefault();
-                        const file = e.dataTransfer.files?.[0];
-                        if (file) handleFileUpload(book.id, file);
-                      }}
-                    >
-                      <img
-                        src={customCovers[book.id] || book.coverImage}
-                        alt={language === 'en' ? book.titleEn : book.titleBn}
-                        className="w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                        loading="lazy"
-                      />
-                      <label
-                        className="absolute inset-0 bg-[#0D161F]/80 backdrop-blur-xs opacity-0 group-hover/cover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 text-white text-[11px] font-semibold cursor-pointer p-3 text-center z-10"
-                        title={language === 'en' ? 'Click or drop to replace with your exact book photo' : 'আপনার আসল বইয়ের ছবি যুক্ত করতে ক্লিক করুন বা ড্রপ করুন'}
+                    <div className="shrink-0 mx-auto sm:mx-0 flex flex-col items-center gap-2.5">
+                      <div
+                        className="relative group/cover w-40 sm:w-44 aspect-[2/3] rounded-lg shadow-[0_12px_28px_rgba(0,0,0,0.18)] overflow-hidden border border-slate-200/80 group-hover:shadow-[0_16px_36px_rgba(0,0,0,0.25)] group-hover:scale-[1.02] transition-all duration-300 transform-gpu bg-slate-100"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          const file = e.dataTransfer.files?.[0];
+                          if (file) handleFileUpload(book.id, file);
+                        }}
                       >
-                        <Upload className="w-5 h-5 text-teal-400 animate-bounce" />
-                        <span>{language === 'en' ? 'Replace with Exact Photo' : 'আসল ছবি আপলোড করুন'}</span>
-                        <span className="text-[9px] text-slate-300 font-normal">PNG, JPG or WebP</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleFileUpload(book.id, file);
+                        <img
+                          src={resolveCoverUrl(customCovers[book.id] || book.coverImage)}
+                          alt={language === 'en' ? book.titleEn : book.titleBn}
+                          className="w-full h-full object-cover"
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (book.id === 'jodi-lokkho-thake-otut') {
+                              target.src = '/1000033103.jpg';
+                            } else if (book.id === 'bhabia-korio-kaaj') {
+                              target.src = '/IMG-20260226-WA0000.jpg';
+                            }
                           }}
                         />
-                      </label>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedBookForDrive(book.id);
+                            setDriveUrlInput('');
+                            setDriveLinkError('');
+                          }}
+                          className="absolute inset-0 bg-[#0D161F]/80 backdrop-blur-xs opacity-0 group-hover/cover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 text-white text-[11px] font-semibold cursor-pointer p-3 text-center z-10"
+                          title={language === 'en' ? 'Click to add Google Drive link or upload photo' : 'গুগল ড্রাইভ লিঙ্ক বা ছবি যুক্ত করতে ক্লিক করুন'}
+                        >
+                          <Link2 className="w-5 h-5 text-teal-400 animate-pulse" />
+                          <span>{language === 'en' ? 'Set Cover / Drive Link' : 'ড্রাইভ লিঙ্ক বা ছবি যুক্ত করুন'}</span>
+                          <span className="text-[9px] text-slate-300 font-normal">Google Drive, PNG, JPG</span>
+                        </button>
+                      </div>
+
+                      {/* Explicit button beneath cover for easy mobile/desktop access */}
+                      <div className="flex items-center gap-1.5 w-full justify-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedBookForDrive(book.id);
+                            setDriveUrlInput('');
+                            setDriveLinkError('');
+                          }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 text-[11px] font-medium transition-colors border border-slate-200"
+                        >
+                          <Link2 className="w-3 h-3 text-teal-600" />
+                          <span>{language === 'en' ? 'Drive Link' : 'ড্রাইভ লিঙ্ক'}</span>
+                        </button>
+                        {customCovers[book.id] && (
+                          <button
+                            type="button"
+                            onClick={() => handleResetCover(book.id)}
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-medium transition-colors border border-rose-200"
+                            title={language === 'en' ? 'Reset to default cover' : 'আসল কভারে ফিরে যান'}
+                          >
+                            <RotateCcw className="w-3 h-3" />
+                            <span>{language === 'en' ? 'Reset' : 'রিসেট'}</span>
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
 
@@ -350,6 +432,199 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
           </a>
         </ScrollReveal>
       </ScrollSection>
+
+      {/* Google Drive / Cover Upload Modal */}
+      <AnimatePresence>
+        {selectedBookForDrive && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => {
+              setSelectedBookForDrive(null);
+              setDriveLinkError('');
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              className="w-full max-w-lg rounded-2xl bg-white p-6 sm:p-7 shadow-2xl border border-slate-200 space-y-6 text-[#0D161F]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center">
+                    <Link2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg font-bold">
+                      {language === 'en' ? 'Set Book Cover Image' : 'বইয়ের কভার ছবি পরিবর্তন করুন'}
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      {selectedBookForDrive === 'jodi-lokkho-thake-otut'
+                        ? 'যদি লক্ষ্য থাকে অটুট'
+                        : 'ভাবিয়া করিও কাজ'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedBookForDrive(null);
+                    setDriveLinkError('');
+                  }}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Book Selector Switcher */}
+              <div className="flex rounded-xl bg-slate-100 p-1 text-xs font-medium">
+                <button
+                  type="button"
+                  onClick={() => setSelectedBookForDrive('jodi-lokkho-thake-otut')}
+                  className={`flex-1 py-2 rounded-lg text-center transition-all ${
+                    selectedBookForDrive === 'jodi-lokkho-thake-otut'
+                      ? 'bg-white shadow-xs text-teal-800 font-semibold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  যদি লক্ষ্য থাকে অটুট
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBookForDrive('bhabia-korio-kaaj')}
+                  className={`flex-1 py-2 rounded-lg text-center transition-all ${
+                    selectedBookForDrive === 'bhabia-korio-kaaj'
+                      ? 'bg-white shadow-xs text-teal-800 font-semibold'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  ভাবিয়া করিও কাজ
+                </button>
+              </div>
+
+              {/* Input for Google Drive Link */}
+              <div className="space-y-3">
+                <label className="block text-xs font-semibold text-slate-700">
+                  {language === 'en'
+                    ? 'Paste Google Drive Link or Direct Image URL'
+                    : 'গুগল ড্রাইভ লিঙ্ক অথবা ছবির সরাসরি লিঙ্ক পেস্ট করুন'}
+                </label>
+                <div className="relative">
+                  <input
+                    type="url"
+                    value={driveUrlInput}
+                    onChange={(e) => {
+                      setDriveUrlInput(e.target.value);
+                      setDriveLinkError('');
+                    }}
+                    placeholder="https://drive.google.com/file/d/..."
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-mono text-xs"
+                  />
+                  {driveUrlInput && (
+                    <button
+                      type="button"
+                      onClick={() => setDriveUrlInput('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {driveLinkError && (
+                  <p className="text-xs text-rose-600 font-medium">{driveLinkError}</p>
+                )}
+
+                <div className="p-3 rounded-xl bg-teal-50/60 border border-teal-100 text-[11px] text-teal-800 space-y-1">
+                  <div className="font-semibold flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                    <span>{language === 'en' ? 'Google Drive Link Guide' : 'গুগল ড্রাইভ নির্দেশিকা'}</span>
+                  </div>
+                  <p className="text-slate-600 leading-normal">
+                    {language === 'en'
+                      ? 'In Google Drive, ensure sharing access is set to "Anyone with the link can view". The link will be instantly converted into a high-speed direct cover.'
+                      : 'গুগল ড্রাইভের ফাইলটির শেয়ারিং অপশনে "Anyone with the link can view" নিশ্চিত করুন। লিঙ্কটি স্বয়ংক্রিয়ভাবে সরাসরি উচ্চ রেজুলেশন কভারে রূপান্তরিত হবে।'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Or Device Upload */}
+              <div className="relative flex items-center justify-center">
+                <div className="border-t border-slate-200 w-full" />
+                <span className="bg-white px-3 text-xs text-slate-400 font-medium shrink-0 uppercase tracking-wider">
+                  {language === 'en' ? 'Or upload from device' : 'অথবা ডিভাইস থেকে আপলোড করুন'}
+                </span>
+              </div>
+
+              <div>
+                <label className="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-dashed border-slate-300 hover:border-teal-500 bg-slate-50 hover:bg-teal-50/30 cursor-pointer transition-colors text-center group">
+                  <Upload className="w-5 h-5 text-slate-400 group-hover:text-teal-600 mb-1 transition-colors" />
+                  <span className="text-xs font-semibold text-slate-700">
+                    {language === 'en' ? 'Select 1000033103.jpg or WA0000.jpg' : 'ফাইল নির্বাচন করুন (JPG / PNG)'}
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    {language === 'en' ? 'Instant preview & save' : 'ক্লিক করে নির্বাচন করুন বা ড্রপ করুন'}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file && selectedBookForDrive) {
+                        handleFileUpload(selectedBookForDrive, file);
+                        setSelectedBookForDrive(null);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (selectedBookForDrive) {
+                      handleResetCover(selectedBookForDrive);
+                      setSelectedBookForDrive(null);
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 text-xs font-medium transition-colors"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{language === 'en' ? 'Reset to Default' : 'আসল কভারে রিসেট'}</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedBookForDrive(null);
+                      setDriveLinkError('');
+                    }}
+                    className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold transition-colors"
+                  >
+                    {language === 'en' ? 'Cancel' : 'বাতিল'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleApplyDriveLink}
+                    className="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold shadow-xs hover:shadow transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>{language === 'en' ? 'Apply Link' : 'লিঙ্ক সংরক্ষণ করুন'}</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

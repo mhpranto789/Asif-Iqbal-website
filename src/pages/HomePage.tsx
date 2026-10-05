@@ -11,6 +11,7 @@ import { ThoughtTicker } from '../components/ThoughtTicker';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 import { ScrollSection, ScrollReveal, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
 import { HeroBackgroundVideo } from '../components/HeroBackgroundVideo';
+import { resolveCoverUrl } from '../utils/imageUtils';
 
 // Subtle staggered entrance animation variants for editorial polish
 const heroTextContainerVariants: Variants = {
@@ -107,7 +108,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
     Array.from(files).forEach((file) => {
       const name = file.name.toLowerCase();
       let targetId = '';
-      if (name.includes('1000033103') || name.includes('lokkho') || name.includes('otut')) {
+      if (name.includes('1000033103') || name.includes('1000025304') || name.includes('lokkho') || name.includes('otut')) {
         targetId = 'jodi-lokkho-thake-otut';
       } else if (name.includes('wa0000') || name.includes('bhabia') || name.includes('kaj')) {
         targetId = 'bhabia-korio-kaaj';
@@ -578,11 +579,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
                     <div className="w-full aspect-[16/10] sm:aspect-[16/9] rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center p-3 relative group-hover:bg-slate-200/70 transition-colors">
                       <div className="h-full aspect-[2/3] rounded shadow-[0_8px_20px_rgba(0,0,0,0.18)] overflow-hidden border border-black/5 transform group-hover:scale-105 transition-transform duration-300">
                         <img
-                          src={customCovers[book.id] || book.coverImage}
+                          src={resolveCoverUrl(customCovers[book.id] || book.coverImage)}
                           alt={language === 'en' ? book.titleEn : book.titleBn}
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
                           loading="lazy"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (book.id === 'jodi-lokkho-thake-otut') {
+                              target.src = '/1000033103.jpg';
+                            } else if (book.id === 'bhabia-korio-kaaj') {
+                              target.src = '/IMG-20260226-WA0000.jpg';
+                            }
+                          }}
                         />
                       </div>
                     </div>
