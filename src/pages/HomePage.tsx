@@ -3,7 +3,7 @@ import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
 import { fourVentures, publishedBooks, musicItems } from '../data/siteContent';
 import { assetConfig } from '../data/assetConfig';
-import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight, Upload, Play, Music, Disc, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight, Upload, Play, Music, X } from 'lucide-react';
 import { motion, Variants, AnimatePresence } from 'motion/react';
 import { PolymathMatrix } from '../components/PolymathMatrix';
 import { ThoughtTicker } from '../components/ThoughtTicker';
