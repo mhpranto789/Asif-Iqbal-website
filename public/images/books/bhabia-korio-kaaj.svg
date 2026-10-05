@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&amp;display=swap');
+      .title-top {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+        font-weight: 700;
+        fill: #FFFFFF;
+        text-anchor: middle;
+      }
+      .author-name {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+        font-weight: 600;
+        fill: #FFFFFF;
+        text-anchor: middle;
+        letter-spacing: 14px;
+      }
+      .subtitle-bottom {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+        font-weight: 600;
+        fill: #FFFFFF;
+        text-anchor: middle;
+        letter-spacing: 0.5px;
+      }
+    </style>
+
+    <!-- Drop Shadow for Folded Paper Origami Brain -->
+    <filter id="paper-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#832800" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Subtle Crease Shadow Gradient -->
+    <linearGradient id="crease" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F3F4F6" />
+      <stop offset="100%" stop-color="#D1D5DB" />
+    </linearGradient>
+
+    <!-- Book Spine 3D Lighting -->
+    <linearGradient id="book-spine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.30" />
+      <stop offset="2%" stop-color="#FFFFFF" stop-opacity="0.18" />
+      <stop offset="4%" stop-color="#000000" stop-opacity="0.08" />
+      <stop offset="7%" stop-color="#000000" stop-opacity="0.0" />
+      <stop offset="95%" stop-color="#FFFFFF" stop-opacity="0.0" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.22" />
+    </linearGradient>
+  </defs>
+
+  <!-- Cover Background: Terracotta Orange -->
+  <rect width="600" height="900" fill="#ED5D1A" />
+
+  <!-- Inset Thin White Border Frame -->
+  <rect x="24" y="24" width="552" height="852" rx="1" fill="none" stroke="#FFFFFF" stroke-width="2.2" />
+
+  <!-- 1. Book Title -->
+  <text x="300" y="195" font-size="82" class="title-top">ভাবিয়া</text>
+  <text x="300" y="295" font-size="80" class="title-top">করিও কাজ</text>
+
+  <!-- 2. Author Name -->
+  <text x="307" y="394" font-size="33" class="author-name">আ সি ফ  ই ক বা ল</text>
+
+  <!-- 3. Central 3D Paper Origami Brain Labyrinth Maze -->
+  <g transform="translate(130, 440)" filter="url(#paper-shadow)">
+    <!-- Folded Paper Brain Outline & Channels -->
+    <!-- Outer Brain Contour with Folded Paper Ribbons -->
+    <path d="M 170 120 
+             C 150 90, 110 75, 75 90 
+             C 40 105, 20 145, 35 185
+             C 15 210, 15 245, 35 270
+             C 25 300, 50 335, 90 335
+             C 130 335, 155 305, 170 280
+             C 185 305, 210 335, 250 335
+             C 290 335, 315 300, 305 270
+             C 325 245, 325 210, 305 185
+             C 320 145, 300 105, 265 90
+             C 230 75, 190 90, 170 120 Z" 
+          fill="none" stroke="url(#crease)" stroke-width="22" stroke-linejoin="round" stroke-linecap="round" />
+
+    <!-- Inner Labyrinth Convolutions & Folded Paths -->
+    <path d="M 85 150 Q 130 140 130 200 T 75 240 Q 65 295 125 285" 
+          fill="none" stroke="url(#crease)" stroke-width="20" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M 255 150 Q 210 140 210 200 T 265 240 Q 275 295 215 285" 
+          fill="none" stroke="url(#crease)" stroke-width="20" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M 140 115 Q 170 145 170 200 Q 170 245 200 245" 
+          fill="none" stroke="url(#crease)" stroke-width="20" stroke-linejoin="round" stroke-linecap="round" />
+
+    <!-- Input Ribbon Arrow entering top left -->
+    <path d="M 15 230 L 45 180 L 70 215 Z" fill="#FFFFFF" />
+    <path d="M 15 230 L 5 215 L 35 165 L 55 185 Z" fill="#E5E7EB" />
+
+    <!-- Output Decisive Arrow exiting bottom center -->
+    <g transform="translate(170, 290)">
+      <rect x="-10" y="0" width="20" height="70" fill="url(#crease)" rx="2" />
+      <polygon points="-26,62 0,105 26,62" fill="#FFFFFF" />
+      <polygon points="0,105 26,62 0,62" fill="#D1D5DB" />
+    </g>
+  </g>
+
+  <!-- 4. Subtitle Tagline at Bottom -->
+  <text x="300" y="830" font-size="24" class="subtitle-bottom">গড়ে তুলুন সঠিক সিদ্ধান্ত নেয়ার ক্ষমতা</text>
+
+  <!-- Physical Hardcover Book Spine 3D Lighting Overlay -->
+  <rect width="600" height="900" fill="url(#book-spine)" pointer-events="none" />
+</svg>

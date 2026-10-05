@@ -86,6 +86,7 @@ export interface BookItem {
   keyTakeawaysEn: string[];
   keyTakeawaysBn: string[];
   orderUrl?: string;
+  coverImage?: string;
 }
 
 export interface FrameworkStep {

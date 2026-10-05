@@ -96,7 +96,7 @@ const storyChapters: StoryChapterData[] = [
     categoryBn: 'স্থায়ী অবদান ও ভবিষ্যৎ',
     icon: HeartHandshake,
     paragraphsEn: [
-      'Driven by the belief that true success must be shared, Asif Iqbal founded multiple pioneering enterprises: Achieve Consulting to guide national businesses through digital and organizational transformation; ACIS to fuse technology with human-centered strategy; GaanChill Music to protect artists’ intellectual property rights; and ASIX to connect over 900 rural women handloom artisans to global markets.',
+      'Driven by the belief that true success must be shared, Asif Iqbal founded multiple pioneering enterprises: Achieve Consulting to guide national businesses through digital and organizational transformation; ACIS to fuse technology with human-centered strategy; Gaanchill Music to protect artists’ intellectual property rights; and ASIX to connect over 900 rural women handloom artisans to global markets.',
       'Whether teaching MBA candidates at IBA, writing books on leadership mindset, or coordinating emergency healthcare supplies during national crises, Asif’s mission remains rooted in a singular principle: leadership is judged not by what you accumulate, but by what you build for the flourishing of others.'
     ],
     paragraphsBn: [
@@ -317,7 +317,7 @@ export const StoryPage: React.FC<StoryPageProps> = ({ onNavigate, language }) =>
                       <span className="absolute -left-[19px] top-1 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white" />
                       <span className="font-mono text-amber-600 font-medium">Current Era</span>
                       <div className="font-semibold text-[#0D161F]">
-                        {language === 'en' ? 'Achieve, GaanChill, ASIX & Mentorship' : 'অ্যাচিভ, গানচিল, এসিক্স ও শিক্ষকতা'}
+                        {language === 'en' ? 'Achieve, Gaanchill, ASIX & Mentorship' : 'অ্যাচিভ, গানচিল, এসিক্স ও শিক্ষকতা'}
                       </div>
                     </li>
                   </ol>

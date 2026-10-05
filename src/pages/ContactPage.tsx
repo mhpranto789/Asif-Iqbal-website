@@ -379,7 +379,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ initialCategory = 'bus
                   </span>
                   <p>
                     {language === 'en'
-                      ? 'Collaborations with composers, artists, and GaanChill releases.'
+                      ? 'Collaborations with composers, artists, and Gaanchill releases.'
                       : 'গানচিল মিউজিক ও নতুন গানের প্রযোজনা।'}
                   </p>
                 </div>

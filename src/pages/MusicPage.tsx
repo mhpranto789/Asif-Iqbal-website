@@ -213,7 +213,7 @@ export const MusicPage: React.FC<MusicPageProps> = ({ onNavigate, language }) =>
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold transition-colors cursor-pointer"
                             >
-                              <span>Listen on YouTube / GaanChill</span>
+                              <span>Listen on YouTube / Gaanchill</span>
                               <ArrowUpRight className="w-3.5 h-3.5" />
                             </a>
                           )}
@@ -266,7 +266,7 @@ export const MusicPage: React.FC<MusicPageProps> = ({ onNavigate, language }) =>
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-xs text-teal-700 hover:text-teal-900 font-semibold transition-colors"
                     >
-                      <span>GaanChill Music</span>
+                      <span>Gaanchill Music</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </a>
                   )}

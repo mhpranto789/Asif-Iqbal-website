@@ -67,6 +67,15 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
   const t = translations[language];
 
+  const customCovers: Record<string, string> = (() => {
+    try {
+      const saved = localStorage.getItem('asif_custom_book_covers');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  })();
+
   return (
     <div className="space-y-16 lg:space-y-24 pb-20">
       {/* SECTION A: HERO (Extends up behind floating navbar so hero background shines through) */}
@@ -501,24 +510,49 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
               <motion.div
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.2 }}
-                className={`h-full p-7 rounded-2xl border flex flex-col justify-between space-y-4 shadow-sm transition-all ${
+                className={`h-full p-6 sm:p-7 rounded-2xl border flex flex-col justify-between space-y-4 shadow-sm transition-all group ${
                   book.type === 'manuscript'
                     ? 'bg-gradient-to-br from-[#0D161F] to-[#12202E] text-white border-teal-500/30 shadow-xl'
-                    : 'bg-white text-[#0D161F] border-slate-200 hover:border-teal-500/40'
+                    : 'bg-white text-[#0D161F] border-slate-200 hover:border-teal-500/40 hover:shadow-md'
                 }`}
               >
-                <div className="space-y-3">
-                  <span className={`text-[11px] font-mono uppercase tracking-wider font-semibold ${
-                    book.type === 'manuscript' ? 'text-teal-400' : 'text-teal-700'
-                  }`}>
-                    {language === 'en' ? book.statusEn : book.statusBn}
-                  </span>
-                  <h3 className="font-display text-2xl font-bold">
-                    {language === 'en' ? book.titleEn : book.titleBn}
-                  </h3>
-                  <p className={`text-xs ${book.type === 'manuscript' ? 'text-slate-300' : 'text-slate-500'}`}>
-                    {language === 'en' ? book.subtitleEn : book.subtitleBn}
-                  </p>
+                <div className="space-y-4">
+                  {book.coverImage ? (
+                    <div className="w-full aspect-[16/10] sm:aspect-[16/9] rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center p-3 relative group-hover:bg-slate-200/70 transition-colors">
+                      <div className="h-full aspect-[2/3] rounded shadow-[0_8px_20px_rgba(0,0,0,0.18)] overflow-hidden border border-black/5 transform group-hover:scale-105 transition-transform duration-300">
+                        <img
+                          src={customCovers[book.id] || book.coverImage}
+                          alt={language === 'en' ? book.titleEn : book.titleBn}
+                          className="w-full h-full object-cover"
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full aspect-[16/10] sm:aspect-[16/9] rounded-xl overflow-hidden bg-teal-950/40 border border-teal-500/20 flex flex-col items-center justify-center p-4 text-center">
+                      <span className="font-stylish-bengali text-lg text-teal-300 font-medium">
+                        ‘বৃক্ষ তোমার নাম কী? ফলে পরিচয়’
+                      </span>
+                      <span className="text-[10px] font-mono text-teal-400/80 uppercase tracking-widest pt-1">
+                        {language === 'en' ? 'Unpublished Manuscript' : 'অপ্রকাশিত পাণ্ডুলিপি'}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <span className={`text-[11px] font-mono uppercase tracking-wider font-semibold ${
+                      book.type === 'manuscript' ? 'text-teal-400' : 'text-teal-700'
+                    }`}>
+                      {language === 'en' ? book.statusEn : book.statusBn}
+                    </span>
+                    <h3 className="font-display text-2xl font-bold leading-tight">
+                      {language === 'en' ? book.titleEn : book.titleBn}
+                    </h3>
+                    <p className={`text-xs ${book.type === 'manuscript' ? 'text-slate-300' : 'text-slate-500'}`}>
+                      {language === 'en' ? book.subtitleEn : book.subtitleBn}
+                    </p>
+                  </div>
                 </div>
 
                 <p className={`text-xs leading-relaxed ${book.type === 'manuscript' ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -604,7 +638,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
                   {language === 'en' ? 'Music Collaboration' : 'সংগীত ও সাহিত্য'}
                 </div>
                 <div className="text-xs text-slate-400 pt-3 flex items-center gap-1 group-hover:text-teal-300">
-                  <span>{language === 'en' ? 'GaanChill Platform' : 'সৃজনশীল মেলবন্ধন'}</span>
+                  <span>{language === 'en' ? 'Gaanchill Platform' : 'সৃজনশীল মেলবন্ধন'}</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>

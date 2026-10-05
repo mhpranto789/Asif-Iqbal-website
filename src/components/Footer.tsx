@@ -329,11 +329,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, language }) => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 hover:text-white transition-colors"
                   >
-                    <span>GaanChill Music</span>
+                    <span>Gaanchill Music</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-teal-400" />
                   </a>
                 ) : (
-                  <span>GaanChill Music</span>
+                  <span>Gaanchill Music</span>
                 )}
                 <span className="text-xs text-slate-400 font-mono">Bangla Sound</span>
               </li>

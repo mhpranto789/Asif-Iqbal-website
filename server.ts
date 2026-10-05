@@ -3,6 +3,7 @@ import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -85,6 +86,29 @@ async function startServer() {
     } catch (err: any) {
       console.error('TTS Generation error:', err);
       res.status(500).json({ error: err.message || 'TTS generation failed' });
+    }
+  });
+
+  // Direct Book Cover Upload endpoint to store the user's exact uploaded book images
+  app.post('/api/upload-book-cover', (req, res) => {
+    try {
+      const { bookId, base64Data } = req.body;
+      if (!bookId || !base64Data) {
+        return res.status(400).json({ error: 'bookId and base64Data are required' });
+      }
+      const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, '');
+      const buffer = Buffer.from(cleanBase64, 'base64');
+      const targetDir = path.join(__dirname, 'public', 'images', 'books');
+      if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, { recursive: true });
+      }
+      const targetFile = path.join(targetDir, `${bookId}.jpg`);
+      fs.writeFileSync(targetFile, buffer);
+      console.log(`Saved exact book cover for ${bookId} at ${targetFile}`);
+      res.json({ success: true, url: `/images/books/${bookId}.jpg` });
+    } catch (err: any) {
+      console.error('Book cover upload error:', err);
+      res.status(500).json({ error: err.message || 'Failed to save book cover' });
     }
   });
 

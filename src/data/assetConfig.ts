@@ -21,7 +21,7 @@ export const assetConfig = {
     achieveConsulting: "https://www.achieveconsultingbd.com/", // official corporate advisory portal
     acis: "",
     asix: "https://asixbd.com", // approved artisan craft venture
-    gaanChill: "https://www.youtube.com/@GaanchillMusicOfficial", // GaanChill Music platform & official YouTube channel
+    gaanChill: "https://www.youtube.com/@GaanchillMusicOfficial", // Gaanchill Music platform & official YouTube channel
   },
 
   // Approved Social Links (Only verified profiles)

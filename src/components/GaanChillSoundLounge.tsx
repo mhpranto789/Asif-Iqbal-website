@@ -292,7 +292,7 @@ export const GaanChillSoundLounge: React.FC<GaanChillSoundLoungeProps> = ({
           </div>
           <div>
             <div className="text-[11px] font-mono uppercase tracking-widest text-teal-400 font-semibold flex items-center gap-2">
-              <span>{language === 'en' ? 'GaanChill Sound Lounge' : 'গানচিল সাউন্ড লাউঞ্জ'}</span>
+              <span>{language === 'en' ? 'Gaanchill Sound Lounge' : 'গানচিল সাউন্ড লাউঞ্জ'}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping" />
             </div>
             <h3 className="font-display text-xl sm:text-2xl font-semibold text-white tracking-tight">

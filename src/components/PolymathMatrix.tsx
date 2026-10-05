@@ -44,7 +44,7 @@ export const PolymathMatrix: React.FC<PolymathMatrixProps> = ({ language, onNavi
     {
       id: 'culture' as const,
       icon: Music,
-      titleEn: 'Songwriting & GaanChill',
+      titleEn: 'Songwriting & Gaanchill',
       titleBn: 'গীতিকবিতা ও সংস্কৃতি',
       taglineEn: '42+ Years of Poetic Excellence',
       taglineBn: 'চার দশকেরও বেশি সময় ধরে আধুনিক গানের রূপরেখা',
@@ -52,11 +52,11 @@ export const PolymathMatrix: React.FC<PolymathMatrixProps> = ({ language, onNavi
       statSuffix: '+',
       statLabelEn: 'Recorded Lyric Compositions',
       statLabelBn: 'রেকর্ডকৃত কালজয়ী আধুনিক গান',
-      ventureEn: 'GaanChill Music',
+      ventureEn: 'Gaanchill Music',
       ventureBn: 'গানচিল মিউজিক',
       highlightsEn: [
         'Penned iconic classics including "Anonna" (Ayub Bachchu/LRB, 1988) and multi-generational anthems',
-        'Founded GaanChill Music, discovering and launching breakthrough Bangladeshi musical talent',
+        'Founded Gaanchill Music, discovering and launching breakthrough Bangladeshi musical talent',
         'Strictly credited as lyricist, championing intellectual property rights and lyrical depth'
       ],
       highlightsBn: [

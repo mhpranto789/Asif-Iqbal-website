@@ -78,7 +78,7 @@ export const fourVentures: VentureItem[] = [
   },
   {
     id: 'gaanchill-music',
-    name: 'GaanChill Music',
+    name: 'Gaanchill Music',
     nameBn: 'গানচিল মিউজিক',
     taglineEn: 'Nurturing Artistry & Advancing Bengali Music',
     taglineBn: 'নতুন শিল্পী তৈরি ও বাংলা গানের প্রাতিষ্ঠানিক বিস্তার',
@@ -243,7 +243,8 @@ export const publishedBooks: BookItem[] = [
       'দীর্ঘমেয়াদি অনিশ্চয়তার সময়েও মানসিক ধৈর্য বজায় রাখার কৌশল',
       'বাইরের কোলাহল ও দ্বিধা এড়িয়ে নিজের লক্ষ্যে অবিচল থাকা'
     ],
-    orderUrl: 'https://www.rokomari.com/book/457335/jodi-lokkho-thake-otut'
+    orderUrl: 'https://www.rokomari.com/book/457335/jodi-lokkho-thake-otut',
+    coverImage: '/images/books/jodi-lokkho-thake-otut.jpg'
   },
   {
     id: 'bhabia-korio-kaaj',
@@ -268,7 +269,8 @@ export const publishedBooks: BookItem[] = [
       'গুরুত্বপূর্ণ পদক্ষেপ নেওয়ার আগে নিজের অন্ধবিন্দুগুলো চিহ্নিত করা',
       'ব্যক্তিগত মূল্যবোধের সাথে প্রাতিষ্ঠানিক সিদ্ধান্তের সামঞ্জস্য রক্ষা'
     ],
-    orderUrl: 'https://www.rokomari.com/book/545102/bhabiya-koriyo-kaj'
+    orderUrl: 'https://www.rokomari.com/book/545102/bhabiya-koriyo-kaj',
+    coverImage: '/images/books/bhabia-korio-kaaj.jpg'
   },
   {
     id: 'brikkho-tomar-naam-ki',

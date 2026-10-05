@@ -307,7 +307,7 @@ const TREE_NODES: TreeNode[] = [
     id: 'branch-gaanchill-platform',
     type: 'branch',
     level: 2,
-    titleEn: 'Founding of GaanChill Music & Intellectual Property',
+    titleEn: 'Founding of Gaanchill Music & Intellectual Property',
     titleBn: 'গানচিল মিউজিক প্রতিষ্ঠা ও মেধার অধিকার',
     subtitleEn: 'Pioneering ethical royalty and modern music production in Dhaka',
     subtitleBn: 'শিল্পী-গীতিকারদের রয়্যালটি সুরক্ষা ও সুস্থ ধারার সংগীত',
@@ -318,7 +318,7 @@ const TREE_NODES: TreeNode[] = [
     icon: Sparkles,
     color: 'amber',
     descriptionEn:
-      'Disturbed by the rampant piracy and disregard for artists’ rights in the early 2000s, Asif founded GaanChill Music. The platform became an intellectual property safe haven, producing legendary acoustic and orchestral albums while guaranteeing rightful compensation to lyricists and composers.',
+      'Disturbed by the rampant piracy and disregard for artists’ rights in the early 2000s, Asif founded Gaanchill Music. The platform became an intellectual property safe haven, producing legendary acoustic and orchestral albums while guaranteeing rightful compensation to lyricists and composers.',
     descriptionBn:
       'পাইরেসি ও মেধার অবমূল্যায়নের বিরুদ্ধে দাঁড়িয়ে গানচিল মিউজিকের প্রতিষ্ঠা। গীতিকার, সুরকার ও তরুণ প্রতিভাদের ন্যায্য রয়্যালটি নিশ্চিত করে বাংলা আধুনিক গানের এক সমৃদ্ধ মঞ্চ।',
     metricsEn: 'Pioneered digital IP rights in Bangladesh',

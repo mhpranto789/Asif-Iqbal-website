@@ -35,7 +35,7 @@ const LYRIC_LINES = [
   {
     bn: '“হৃদয়ের অতল গভীরে লুকিয়ে থাকে কিছু অব্যাক্ত সুর...”',
     en: '“Deep within the soul rests melody waiting to be spoken...”',
-    song: 'GaanChill Archive',
+    song: 'Gaanchill Archive',
   },
 ];
 
