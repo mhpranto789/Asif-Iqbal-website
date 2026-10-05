@@ -54,6 +54,24 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
     reader.readAsDataURL(file);
   };
 
+  const handleMultipleFiles = (files: FileList | File[]) => {
+    Array.from(files).forEach((file) => {
+      const name = file.name.toLowerCase();
+      let targetId = '';
+      if (name.includes('1000033103') || name.includes('lokkho') || name.includes('otut')) {
+        targetId = 'jodi-lokkho-thake-otut';
+      } else if (name.includes('wa0000') || name.includes('bhabia') || name.includes('kaj')) {
+        targetId = 'bhabia-korio-kaaj';
+      } else {
+        // First match default
+        targetId = 'jodi-lokkho-thake-otut';
+      }
+      if (targetId) {
+        handleFileUpload(targetId, file);
+      }
+    });
+  };
+
   return (
     <div className="space-y-16 lg:space-y-24 py-10 pb-24">
       {/* Header */}
@@ -78,16 +96,32 @@ export const IdeasPage: React.FC<IdeasPageProps> = ({ onNavigate, language }) =>
 
       {/* PART 1: PUBLISHED BOOKS (Scroll Stagger Reveal) */}
       <ScrollSection className="max-w-[1280px] mx-auto px-6 space-y-8">
-        <ScrollReveal className="border-b border-slate-200 pb-4">
-          <span className="text-xs font-mono uppercase text-teal-600 font-semibold">Section 01</span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0D161F]">
-            {language === 'en' ? 'Published Books' : 'প্রকাশিত গ্রন্থসমূহ'}
-          </h2>
-          <p className="text-xs text-slate-500 pt-1">
-            {language === 'en'
-              ? 'Works translating lived leadership experience and Bengali proverbs into cognitive frameworks.'
-              : 'বাস্তব জীবনের অভিজ্ঞতা ও বাঙালির চিরায়ত প্রজ্ঞার সমন্বয়ে রচিত গ্রন্থসমূহ।'}
-          </p>
+        <ScrollReveal className="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <span className="text-xs font-mono uppercase text-teal-600 font-semibold">Section 01</span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0D161F]">
+              {language === 'en' ? 'Published Books' : 'প্রকাশিত গ্রন্থসমূহ'}
+            </h2>
+            <p className="text-xs text-slate-500 pt-1">
+              {language === 'en'
+                ? 'Works translating lived leadership experience and Bengali proverbs into cognitive frameworks.'
+                : 'বাস্তব জীবনের অভিজ্ঞতা ও বাঙালির চিরায়ত প্রজ্ঞার সমন্বয়ে রচিত গ্রন্থসমূহ।'}
+            </p>
+          </div>
+
+          <label className="shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-teal-700 text-white text-xs font-semibold uppercase tracking-wider cursor-pointer shadow-sm hover:shadow transition-all group">
+            <Upload className="w-3.5 h-3.5 text-teal-400 group-hover:-translate-y-0.5 transition-transform" />
+            <span>{language === 'en' ? 'Upload Exact Book Photos' : 'আসল বইয়ের ছবি আপলোড'}</span>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files) handleMultipleFiles(e.target.files);
+              }}
+            />
+          </label>
         </ScrollReveal>
 
         <StaggerContainer className="grid grid-cols-1 lg:grid-cols-2 gap-8">

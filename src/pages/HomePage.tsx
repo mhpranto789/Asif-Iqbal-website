@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RoutePath, Language, EnquiryCategory } from '../types';
 import { translations } from '../data/translations';
 import { fourVentures, publishedBooks } from '../data/siteContent';
 import { assetConfig } from '../data/assetConfig';
-import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Sparkles, ChevronRight, Upload } from 'lucide-react';
 import { motion, Variants } from 'motion/react';
 import { GaanChillSoundLounge } from '../components/GaanChillSoundLounge';
 import { PolymathMatrix } from '../components/PolymathMatrix';
@@ -67,14 +67,58 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
   const t = translations[language];
 
-  const customCovers: Record<string, string> = (() => {
+  const [customCovers, setCustomCovers] = useState<Record<string, string>>(() => {
     try {
       const saved = localStorage.getItem('asif_custom_book_covers');
       return saved ? JSON.parse(saved) : {};
     } catch {
       return {};
     }
-  })();
+  });
+
+  const handleFileUpload = (bookId: string, file: File) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const base64Data = e.target?.result as string;
+      if (base64Data) {
+        setCustomCovers((prev) => {
+          const updated = { ...prev, [bookId]: base64Data };
+          try {
+            localStorage.setItem('asif_custom_book_covers', JSON.stringify(updated));
+          } catch {}
+          return updated;
+        });
+
+        try {
+          await fetch('/api/upload-book-cover', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bookId, base64Data }),
+          });
+        } catch (err) {
+          console.warn('Cover upload sync:', err);
+        }
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleMultipleFiles = (files: FileList | File[]) => {
+    Array.from(files).forEach((file) => {
+      const name = file.name.toLowerCase();
+      let targetId = '';
+      if (name.includes('1000033103') || name.includes('lokkho') || name.includes('otut')) {
+        targetId = 'jodi-lokkho-thake-otut';
+      } else if (name.includes('wa0000') || name.includes('bhabia') || name.includes('kaj')) {
+        targetId = 'bhabia-korio-kaaj';
+      } else {
+        targetId = 'jodi-lokkho-thake-otut';
+      }
+      if (targetId) {
+        handleFileUpload(targetId, file);
+      }
+    });
+  };
 
   return (
     <div className="space-y-16 lg:space-y-24 pb-20">
@@ -493,12 +537,25 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, language }) => {
               {t.home.ideasPreviewSubheading}
             </motion.p>
           </div>
-          <motion.div variants={sectionHeaderItemVariants}>
+          <motion.div variants={sectionHeaderItemVariants} className="flex items-center gap-3">
+            <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-teal-600/20 hover:bg-teal-600/30 border border-teal-500/30 text-teal-300 text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors group">
+              <Upload className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span>{language === 'en' ? 'Upload Covers' : 'ছবি আপলোড'}</span>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files) handleMultipleFiles(e.target.files);
+                }}
+              />
+            </label>
             <button
               onClick={() => onNavigate('ideas')}
-              className="text-xs font-bold uppercase tracking-wider text-teal-600 hover:text-teal-800 inline-flex items-center gap-1.5 transition-colors cursor-pointer group"
+              className="text-xs font-bold uppercase tracking-wider text-teal-400 hover:text-teal-300 inline-flex items-center gap-1.5 transition-colors cursor-pointer group"
             >
-              <span>{language === 'en' ? 'Open interactive framework' : 'ভাবনা ও মডেল দেখুন'}</span>
+              <span>{language === 'en' ? 'Open framework' : 'ভাবনা ও মডেল'}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.div>
